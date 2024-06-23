@@ -1,6 +1,11 @@
+import { SessionProvider } from "../utils/SessionContext";
+import SelectRace from "../components/SelectRace";
+
 function Home() {
   return (
-    <div class="text-white text-4xl font-semibold">I am making this a test sentence, haha!</div>
+    <SessionProvider>
+      <SelectRace/>
+    </SessionProvider>
   );
 }
 
