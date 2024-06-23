@@ -4,7 +4,14 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors:{
+        mainBackground: "#14141d",
+      },
+      fontFamily: {
+        main: ['Titillium Web', 'sans-serif']
+      }
+    },
   },
   plugins: [],
 }
