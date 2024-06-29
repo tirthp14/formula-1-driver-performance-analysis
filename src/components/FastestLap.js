@@ -37,6 +37,7 @@ const FastestLap = () => {
                     <p>Sector 1 Duration: {fastestLap.duration_sector_1}</p>
                     <p>Sector 2 Duration: {fastestLap.duration_sector_2}</p>
                     <p>Sector 3 Duration: {fastestLap.duration_sector_3}</p>
+                    <p>Date: {fastestLap.date_start}</p>
                 </div>
             )}
         </div>
