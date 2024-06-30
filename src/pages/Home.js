@@ -3,6 +3,7 @@ import SelectRace from "../components/SelectRace";
 import FastestLap from "../components/FastestLap";
 import FastestPitstop from "../components/FastestPitstop";
 import WindData from "../components/WindData";
+import StartingGrid from "../components/StartingGrid";
 import RaceResults from "../components/RaceResults";
 
 function Home() {
@@ -13,6 +14,7 @@ function Home() {
         <FastestLap/>
         <FastestPitstop/>
         <WindData/>
+        <StartingGrid/>
         <RaceResults/>
       </div>
     </SessionProvider>
