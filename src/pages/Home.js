@@ -5,16 +5,18 @@ import FastestPitstop from "../components/FastestPitstop";
 import WindData from "../components/WindData";
 import StartingGrid from "../components/StartingGrid";
 import RaceResults from "../components/RaceResults";
+import Navbar from "./Navbar";
 
 function Home() {
   return (
     <SessionProvider>
       <div className="bg-mainBackground text-white">
+        <Navbar/>
         <SelectRace/>
         <FastestLap/>
         <FastestPitstop/>
         <WindData/>
-        <StartingGrid/>
+        {/* <StartingGrid/> */}
         <RaceResults/>
       </div>
     </SessionProvider>
