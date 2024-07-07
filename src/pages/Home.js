@@ -1,25 +1,10 @@
-import { SessionProvider } from "../utils/SessionContext";
-import SelectRace from "../components/SelectRace";
-import FastestLap from "../components/FastestLap";
-import FastestPitstop from "../components/FastestPitstop";
-import WindData from "../components/WindData";
-import StartingGrid from "../components/StartingGrid";
-import RaceResults from "../components/RaceResults";
-import Navbar from "./Navbar";
-
 function Home() {
   return (
-    <SessionProvider>
-      <div className="bg-mainBackground text-white">
-        <Navbar/>
-        <SelectRace/>
-        <FastestLap/>
-        <FastestPitstop/>
-        <WindData/>
-        {/* <StartingGrid/> */}
-        <RaceResults/>
-      </div>
-    </SessionProvider>
+    <div className="bg-mainBackground text-white">
+      <h2>Welcome to F1 Driver Performance Analysis</h2>
+      <p>This website helps with race analysis by looking at lap times, car data, and more.</p>
+      <p>Use the navigation bar to explore race analysis and qualifying analysis features.</p>
+    </div>
   );
 }
 
