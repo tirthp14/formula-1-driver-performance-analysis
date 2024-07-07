@@ -3,10 +3,11 @@ import { createContext, useState } from 'react';
 export const SessionContext = createContext();
 
 export const SessionProvider = ({children}) => {
-    const [sessionKey, setSessionKey] = useState(null);
+    const [raceSessionKey, setRaceSessionKey] = useState(null);
+    const [qualifyingSessionKey, setQualifyingSessionKey] = useState(null);
 
     return (
-        <SessionContext.Provider value={{sessionKey, setSessionKey}}>
+        <SessionContext.Provider value={{raceSessionKey, setRaceSessionKey, qualifyingSessionKey, setQualifyingSessionKey}}>
             {children}
         </SessionContext.Provider>
     );
