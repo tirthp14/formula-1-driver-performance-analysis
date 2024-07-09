@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { SessionContext } from "../utils/SessionContext"
 import { fetchSessionKey } from "../utils/FetchSessionKey";
+import StartingGrid from "../components/StartingGrid";
 
 const QualifyingAnalysis = () => {
     const { setQualifyingSessionKey } = useContext(SessionContext);
@@ -48,6 +49,8 @@ const QualifyingAnalysis = () => {
                     <option key={location.meeting_key} value={location.country_name}>{location.meeting_name}</option>
                 ))}
             </select>
+
+            <StartingGrid />
         </div>
     )
 }
