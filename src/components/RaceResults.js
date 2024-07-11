@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react";
 import { SessionContext } from "../utils/SessionContext";
-import { fetchDriverDetails } from "../utils/DriverDetails";
 
 const RaceResults = () => {
     const { raceSessionKey } = useContext(SessionContext);

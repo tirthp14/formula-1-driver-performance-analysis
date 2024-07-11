@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { SessionContext } from "../utils/SessionContext"
 import { fetchSessionKey } from "../utils/FetchSessionKey";
 import RaceResults from "../components/RaceResults";
-import StartingGrid from "../components/StartingGrid";
+import LapData from "../components/LapData";
 
 const RaceAnalysis = () => {
     const { setRaceSessionKey } = useContext(SessionContext);
@@ -51,6 +51,9 @@ const RaceAnalysis = () => {
             </select>
 
             <RaceResults />
+            <div className="bg-white">
+                <LapData />
+            </div>
         </div>
     )
 };
