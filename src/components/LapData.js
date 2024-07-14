@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { SessionContext } from "../utils/SessionContext";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
-const LapData = ({ sessionKey }) => {
+const LapData = () => {
     const { raceSessionKey } = useContext(SessionContext);
     const [lapData, setLapData] = useState({});
     const [selectedDrivers, setSelectedDrivers] = useState([1, 2, 3, 4, 10, 11, 14, 16, 18, 20, 22, 23, 24, 27, 31, 44, 55, 63, 77, 81]);
@@ -43,7 +43,9 @@ const LapData = ({ sessionKey }) => {
             setDriverColors(newColors);
         };
 
-        fetchLapData();
+        if (raceSessionKey) {  
+            fetchLapData();
+        }
     }, [raceSessionKey]);
 
     const prepareChartData = () => {

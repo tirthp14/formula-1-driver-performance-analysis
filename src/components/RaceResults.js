@@ -9,27 +9,20 @@ const RaceResults = () => {
     useEffect(() => {
         const fetchRaceData = async () => {
             try {
-                
-
-                // Fetch race positions
                 const response = await fetch(`https://api.openf1.org/v1/position?session_key=${raceSessionKey}`);
                 const data = await response.json();
 
-                // Fetch all driver details
                 const driverDetailsResponse = await fetch(`https://api.openf1.org/v1/drivers?session_key=${raceSessionKey}`);
                 const driverDetailsData = await driverDetailsResponse.json();
 
-                // Map driver details to an object for quick lookup
                 const driverDetailsMap = {};
                 driverDetailsData.forEach(driver => {
                     driverDetailsMap[driver.driver_number] = driver;
                 });
 
-                // Initialize arrays for starting grid and race results
                 const startingGridEntries = new Array(20).fill(null);
                 const raceResultsEntries = new Array(20).fill(null);
 
-                // Process race positions to get starting grid and race results
                 data.forEach(entry => {
                     const position = entry.position;
                     if (position >= 1 && position <= 20) {
@@ -40,7 +33,6 @@ const RaceResults = () => {
                     }
                 });
 
-                // Filter out null entries (positions with no driver) for both starting grid and race results
                 const filteredStartingGrid = startingGridEntries.filter(entry => entry !== null);
                 const filteredRaceResults = raceResultsEntries.filter(entry => entry !== null);
 
