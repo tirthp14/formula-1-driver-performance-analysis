@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { SessionContext } from "../utils/SessionContext";
 import { Bar, BarChart, XAxis, YAxis, CartesianGrid, Tooltip, LabelList, ResponsiveContainer } from 'recharts';
 
-const TyreStrategy = ({ driverCode, driverColor }) => {
+const TyreStrategy = ({ driverCode, driverColor, raceResultsOrder }) => {
     const { raceSessionKey } = useContext(SessionContext);
     const[drivers, setDrivers] = useState([]);
     const[maxLap, setMaxLap] = useState(0);
@@ -30,10 +30,12 @@ const TyreStrategy = ({ driverCode, driverColor }) => {
                 }, {});
 
                 const driversArray = Object.values(groupedDrivers);
-                setDrivers(driversArray);
-
+                setDrivers(driversArray)
+                
                 const maxLap = Math.max(...data.map(stint => stint.lap_end));
                 setMaxLap(maxLap);
+
+                sortDriversByRaceResults(raceResultsOrder);
             } catch (error) {
                 console.log("Error fetching Stint data: ", error);
             }
@@ -42,7 +44,16 @@ const TyreStrategy = ({ driverCode, driverColor }) => {
         if (raceSessionKey) {
             fetchStintData();
         }
-    }, [raceSessionKey]);
+    }, [raceSessionKey, raceResultsOrder]);
+
+    const sortDriversByRaceResults = (resultsOrder) => {
+        if (drivers.length > 0 && resultsOrder.length > 0) {
+            const sortedDrivers = resultsOrder.map(driverNumber =>
+                drivers.find(driver => driver.driver_number === driverNumber)
+            );
+            setDrivers(sortedDrivers);
+        }
+    };
 
     if (!drivers.length) {
         return <p>Loading Stint Data...</p>;
@@ -61,10 +72,6 @@ const TyreStrategy = ({ driverCode, driverColor }) => {
         return driverData;
     });
 
-    const filteredTransformedData = driverCode
-    ? transformedData.filter(driverData => driverData.acronym === driverCode)
-    : transformedData;
-
     const tyreCompounds = {
         soft: '#e11d48',
         medium: '#fbbf24',
@@ -74,7 +81,7 @@ const TyreStrategy = ({ driverCode, driverColor }) => {
     };
 
     const tyreKeys = [
-        ...new Set(filteredTransformedData.flatMap(Object.keys).filter(key => key !== 'acronym'))
+        ...new Set(transformedData.flatMap(Object.keys).filter(key => key !== 'acronym'))
     ]
 
     const capitalizeFirstLetter = (string) => {
@@ -105,7 +112,7 @@ const TyreStrategy = ({ driverCode, driverColor }) => {
             <div className="h-fit mb-16 relative rounded-xlarge bg-slate-900">
                 <ResponsiveContainer width="60%" height={driverCode ? 100 : 700}>
                     <BarChart 
-                        data={filteredTransformedData}
+                        data={transformedData}
                         width="100%"
                         layout="vertical"
                         margin={{ right: 30 }}

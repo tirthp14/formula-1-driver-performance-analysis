@@ -71,7 +71,7 @@ const LapData = () => {
         if (raceSessionKey && Object.keys(driverAcronyms).length > 0) {  
             fetchLapData();
         }
-    }, [raceSessionKey, driverAcronyms]);
+    }, [raceSessionKey, driverAcronyms, selectedDrivers]);
 
     const prepareChartData = () => {
         const combinedLapData = Object.values(lapData).flat();
@@ -109,58 +109,60 @@ const LapData = () => {
     const maxLapDuration = Math.max(...chartData.flatMap(d => selectedDrivers.map(driver => parseFloat(d[driverAcronyms[driver] || `Driver ${driver}`]) || -Infinity)));
 
     return (
-        <div>
-            {chartData.length > 0 ? (
-                <ResponsiveContainer width="100%" height={400}>
-                    <LineChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="lapNumber" />
-                        <YAxis
-                            tickFormatter={formatYAxisTick}
-                            label={{ value: 'Lap Duration (MM:SS.mmm)', angle: -90, position: 'insideLeft' }}
-                            domain={[minLapDuration - 0.05, maxLapDuration + 0.05]}
-                        />
-                        <Tooltip
-                            formatter={(value) => {
-                                const decimalMinutes = parseFloat(value);
-                                const minutes = Math.floor(decimalMinutes);
-                                const totalSeconds = (decimalMinutes - minutes) * 60;
-                                const seconds = Math.floor(totalSeconds);
-                                const milliseconds = Math.round((totalSeconds - seconds) * 1000);
-                                return `${minutes}:${seconds.toString().padStart(2, '0')}.${milliseconds.toString().padStart(3, '0')}`;
-                            }}
-                        />
-                        <Legend />
-                        {selectedDrivers.map(driver => (
-                            driverVisibility[driverAcronyms[driver] || `Driver ${driver}`] && (
-                                <Line
-                                    key={driver}
-                                    type="monotone"
-                                    dataKey={driverAcronyms[driver] || `Driver ${driver}`}
-                                    stroke={driverColors[driverAcronyms[driver] || `Driver ${driver}`]}
-                                    activeDot={{ r: 8 }}
-                                    name={driverAcronyms[driver] || `Driver ${driver}`}
-                                />
-                            )
-                        ))}
-                    </LineChart>
-                </ResponsiveContainer>
-            ) : (
-                <p>Loading chart data...</p>
-            )}
-            <div className="flex flex-wrap justify-center gap-4 mt-4">
-                {selectedDrivers.map((driver, index) => (
-                    <button
-                        key={index}
-                        className={`py-1 px-4 text-white font-semibold rounded`}
-                        onClick={() => handleDriverVisibilityChange(driverAcronyms[driver] || `Driver ${driver}`)}
-                        style={{ backgroundColor: driverVisibility[driverAcronyms[driver] || `Driver ${driver}`] ? driverColors[driverAcronyms[driver] || `Driver ${driver}`] : '#333333' }}
-                    >
-                        {driverAcronyms[driver] || `Driver ${driver}`}
-                    </button>
-                ))}
+        <>
+            <div>
+                {chartData.length > 0 ? (
+                    <ResponsiveContainer width="100%" height={400} style={{backgroundColor: "white"}}>
+                        <LineChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="lapNumber" />
+                            <YAxis
+                                tickFormatter={formatYAxisTick}
+                                label={{ value: 'Lap Duration (MM:SS.mmm)', angle: -90, position: 'insideLeft' }}
+                                domain={[minLapDuration - 0.05, maxLapDuration + 0.05]}
+                            />
+                            <Tooltip
+                                formatter={(value) => {
+                                    const decimalMinutes = parseFloat(value);
+                                    const minutes = Math.floor(decimalMinutes);
+                                    const totalSeconds = (decimalMinutes - minutes) * 60;
+                                    const seconds = Math.floor(totalSeconds);
+                                    const milliseconds = Math.round((totalSeconds - seconds) * 1000);
+                                    return `${minutes}:${seconds.toString().padStart(2, '0')}.${milliseconds.toString().padStart(3, '0')}`;
+                                }}
+                            />
+                            <Legend />
+                            {selectedDrivers.map(driver => (
+                                driverVisibility[driverAcronyms[driver] || `Driver ${driver}`] && (
+                                    <Line
+                                        key={driver}
+                                        type="monotone"
+                                        dataKey={driverAcronyms[driver] || `Driver ${driver}`}
+                                        stroke={driverColors[driverAcronyms[driver] || `Driver ${driver}`]}
+                                        activeDot={{ r: 8 }}
+                                        name={driverAcronyms[driver] || `Driver ${driver}`}
+                                    />
+                                )
+                            ))}
+                        </LineChart>
+                    </ResponsiveContainer>
+                ) : (
+                    <p>Loading chart data...</p>
+                )}
+                <div className="flex flex-wrap justify-center gap-4 mt-4">
+                    {selectedDrivers.map((driver, index) => (
+                        <button
+                            key={index}
+                            className={`py-1 px-4 text-white font-semibold rounded`}
+                            onClick={() => handleDriverVisibilityChange(driverAcronyms[driver] || `Driver ${driver}`)}
+                            style={{ backgroundColor: driverVisibility[driverAcronyms[driver] || `Driver ${driver}`] ? driverColors[driverAcronyms[driver] || `Driver ${driver}`] : '#333333' }}
+                        >
+                            {driverAcronyms[driver] || `Driver ${driver}`}
+                        </button>
+                    ))}
+                </div>
             </div>
-        </div>
+        </>
     );
 };
 

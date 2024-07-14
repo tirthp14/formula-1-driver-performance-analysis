@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { SessionContext } from "../utils/SessionContext";
 
-const RaceResults = () => {
+const RaceResults = ({ setRaceResultsOrder }) => {
     const { raceSessionKey } = useContext(SessionContext);
     const [startingGrid, setStartingGrid] = useState([]);
     const [raceResults, setRaceResults] = useState([]);
@@ -36,6 +36,9 @@ const RaceResults = () => {
                 const filteredStartingGrid = startingGridEntries.filter(entry => entry !== null);
                 const filteredRaceResults = raceResultsEntries.filter(entry => entry !== null);
 
+                const raceOrderDriverNumbers = filteredRaceResults.map(entry => entry.driver_number);
+                setRaceResultsOrder(raceOrderDriverNumbers);
+
                 setStartingGrid(filteredStartingGrid);
                 setRaceResults(filteredRaceResults);
             } catch (error) {
@@ -44,7 +47,7 @@ const RaceResults = () => {
         };
 
         fetchRaceData();
-    }, [raceSessionKey]);
+    }, [raceSessionKey, setRaceResultsOrder]);
 
     return (
         <div>

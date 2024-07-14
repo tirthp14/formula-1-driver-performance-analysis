@@ -10,6 +10,7 @@ const RaceAnalysis = () => {
     const [year, setYear] = useState("");
     const [country, setCountry] = useState("");
     const [locations, setLocations] = useState([]);
+    const [raceResultsOrder, setRaceResultsOrder] = useState([]);
 
     useEffect(() => {
         const fetchLocations = async () => {
@@ -51,11 +52,9 @@ const RaceAnalysis = () => {
                 ))}
             </select>
 
-            <RaceResults />
-            <div className="bg-white">
-                <LapData />
-            </div>
-            <TyreStrategy />
+            <RaceResults setRaceResultsOrder={setRaceResultsOrder} />
+            <LapData />
+            <TyreStrategy raceResultsOrder={raceResultsOrder} />
         </div>
     )
 };
