@@ -5,9 +5,34 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 const LapData = () => {
     const { raceSessionKey } = useContext(SessionContext);
     const [lapData, setLapData] = useState({});
-    const [selectedDrivers, setSelectedDrivers] = useState([1, 2, 3, 4, 10, 11, 14, 16, 18, 20, 22, 23, 24, 27, 31, 44, 55, 63, 77, 81]);
+    const [selectedDrivers, setSelectedDrivers] = useState([]);
     const [driverVisibility, setDriverVisibility] = useState({});
     const [driverColors, setDriverColors] = useState({});
+    const [driverAcronyms, setDriverAcronyms] = useState({});
+
+    useEffect(() => {
+        const fetchDriverDetails = async () => {
+            try {
+                const response = await fetch(`https://api.openf1.org/v1/drivers?session_key=${raceSessionKey}`);
+                const data = await response.json();
+
+                const driverNumbers = data.map(driver => driver.driver_number);
+                setSelectedDrivers(driverNumbers)
+                
+                const acronyms = data.reduce((acc, driver) => {
+                    acc[driver.driver_number] = driver.name_acronym;
+                    return acc;
+                }, {});
+                setDriverAcronyms(acronyms);
+            } catch (error) {
+                console.log("Error fetching driver details: ", error);
+            }
+        };
+
+        if (raceSessionKey) {
+            fetchDriverDetails();
+        }
+    }, [raceSessionKey]);
 
     useEffect(() => {
         const fetchLapData = async () => {
@@ -32,8 +57,8 @@ const LapData = () => {
                         [driver]: formattedData,
                     }));
 
-                    initialVisibility[`Driver ${driver}`] = true;
-                    newColors[`Driver ${driver}`] = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+                    initialVisibility[driverAcronyms[driver] || `Driver ${driver}`] = true;
+                    newColors[driverAcronyms[driver] || `Driver ${driver}`] = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
                 } catch (error) {
                     console.log("Error fetching Lap Data: ", error);
                 }
@@ -43,10 +68,10 @@ const LapData = () => {
             setDriverColors(newColors);
         };
 
-        if (raceSessionKey) {  
+        if (raceSessionKey && Object.keys(driverAcronyms).length > 0) {  
             fetchLapData();
         }
-    }, [raceSessionKey]);
+    }, [raceSessionKey, driverAcronyms]);
 
     const prepareChartData = () => {
         const combinedLapData = Object.values(lapData).flat();
@@ -57,7 +82,7 @@ const LapData = () => {
             selectedDrivers.forEach(driver => {
                 const lapForDriver = combinedLapData.find(lap => lap.lapNumber === lapNumber && lap.driverNumber === driver);
                 if (lapForDriver) {
-                    lapDataForAllDrivers[`Driver ${driver}`] = lapForDriver.lapDuration;
+                    lapDataForAllDrivers[driverAcronyms[driver] || `Driver ${driver}`] = lapForDriver.lapDuration;
                 }
             });
             return lapDataForAllDrivers;
@@ -80,8 +105,8 @@ const LapData = () => {
     };
 
     const chartData = prepareChartData();
-    const minLapDuration = Math.min(...chartData.flatMap(d => selectedDrivers.map(driver => parseFloat(d[`Driver ${driver}`]) || Infinity)));
-    const maxLapDuration = Math.max(...chartData.flatMap(d => selectedDrivers.map(driver => parseFloat(d[`Driver ${driver}`]) || -Infinity)));
+    const minLapDuration = Math.min(...chartData.flatMap(d => selectedDrivers.map(driver => parseFloat(d[driverAcronyms[driver] || `Driver ${driver}`]) || Infinity)));
+    const maxLapDuration = Math.max(...chartData.flatMap(d => selectedDrivers.map(driver => parseFloat(d[driverAcronyms[driver] || `Driver ${driver}`]) || -Infinity)));
 
     return (
         <div>
@@ -107,14 +132,14 @@ const LapData = () => {
                         />
                         <Legend />
                         {selectedDrivers.map(driver => (
-                            driverVisibility[`Driver ${driver}`] && (
+                            driverVisibility[driverAcronyms[driver] || `Driver ${driver}`] && (
                                 <Line
                                     key={driver}
                                     type="monotone"
-                                    dataKey={`Driver ${driver}`}
-                                    stroke={driverColors[`Driver ${driver}`]}
+                                    dataKey={driverAcronyms[driver] || `Driver ${driver}`}
+                                    stroke={driverColors[driverAcronyms[driver] || `Driver ${driver}`]}
                                     activeDot={{ r: 8 }}
-                                    name={`Driver ${driver}`}
+                                    name={driverAcronyms[driver] || `Driver ${driver}`}
                                 />
                             )
                         ))}
@@ -128,10 +153,10 @@ const LapData = () => {
                     <button
                         key={index}
                         className={`py-1 px-4 text-white font-semibold rounded`}
-                        onClick={() => handleDriverVisibilityChange(`Driver ${driver}`)}
-                        style={{ backgroundColor: driverVisibility[`Driver ${driver}`] ? driverColors[`Driver ${driver}`] : '#333333' }}
+                        onClick={() => handleDriverVisibilityChange(driverAcronyms[driver] || `Driver ${driver}`)}
+                        style={{ backgroundColor: driverVisibility[driverAcronyms[driver] || `Driver ${driver}`] ? driverColors[driverAcronyms[driver] || `Driver ${driver}`] : '#333333' }}
                     >
-                        Driver {driver}
+                        {driverAcronyms[driver] || `Driver ${driver}`}
                     </button>
                 ))}
             </div>

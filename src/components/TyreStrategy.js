@@ -16,7 +16,6 @@ const TyreStrategy = ({ driverCode, driverColor }) => {
                 const response = await fetch(`https://api.openf1.org/v1/stints?session_key=${raceSessionKey}`);
                 const data = await response.json();
                 
-                console.log(data)
                 const groupedDrivers = data.reduce((acc, stint) => {
                     const { driver_number } = stint;
                     if (!acc[driver_number]) {
@@ -40,8 +39,10 @@ const TyreStrategy = ({ driverCode, driverColor }) => {
             }
         };
 
-        fetchStintData();
-    }, []);
+        if (raceSessionKey) {
+            fetchStintData();
+        }
+    }, [raceSessionKey]);
 
     if (!drivers.length) {
         return <p>Loading Stint Data...</p>;
