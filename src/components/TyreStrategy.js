@@ -35,7 +35,12 @@ const TyreStrategy = ({ driverCode, driverColor, raceResultsOrder }) => {
                 const maxLap = Math.max(...data.map(stint => stint.lap_end));
                 setMaxLap(maxLap);
 
-                sortDriversByRaceResults(raceResultsOrder);
+                if (drivers.length > 0 && raceResultsOrder.length > 0) {
+                    const sortedDrivers = raceResultsOrder.map(driverNumber =>
+                        drivers.find(driver => driver.driver_number === driverNumber)
+                    );
+                    setDrivers(sortedDrivers);
+                }
             } catch (error) {
                 console.log("Error fetching Stint data: ", error);
             }
@@ -44,16 +49,7 @@ const TyreStrategy = ({ driverCode, driverColor, raceResultsOrder }) => {
         if (raceSessionKey) {
             fetchStintData();
         }
-    }, [raceSessionKey, raceResultsOrder]);
-
-    const sortDriversByRaceResults = (resultsOrder) => {
-        if (drivers.length > 0 && resultsOrder.length > 0) {
-            const sortedDrivers = resultsOrder.map(driverNumber =>
-                drivers.find(driver => driver.driver_number === driverNumber)
-            );
-            setDrivers(sortedDrivers);
-        }
-    };
+    }, [raceSessionKey, raceResultsOrder, drivers]);
 
     if (!drivers.length) {
         return <p>Loading Stint Data...</p>;
