@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { SessionContext } from "../utils/SessionContext"
 import { fetchSessionKey } from "../utils/FetchSessionKey";
 import StartingGrid from "../components/StartingGrid";
+import CarData from "../components/CarData";
 
 const QualifyingAnalysis = () => {
     const { setQualifyingSessionKey } = useContext(SessionContext);
@@ -51,6 +52,7 @@ const QualifyingAnalysis = () => {
             </select>
 
             <StartingGrid />
+            <CarData />
         </div>
     )
 }
