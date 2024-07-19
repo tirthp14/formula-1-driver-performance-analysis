@@ -66,7 +66,7 @@ const CarData = () => {
                             <div>
                                 <label>
                                     Select Driver {index + 1}:
-                                    <select className='text-black' value={selectedDrivers[index]} onChange={(e) => handleDriverChange(index, e.target.value)}>
+                                    <select className='text-gray-900' value={selectedDrivers[index]} onChange={(e) => handleDriverChange(index, e.target.value)}>
                                         <option value="">Select a Driver</option>
                                         {drivers.map((driver) => (
                                             <option key={driver.driver_number} value={driver.driver_number}>
@@ -79,7 +79,7 @@ const CarData = () => {
                             <div>
                                 <label>
                                     Select Lap for Driver {index + 1}:
-                                    <select className='text-black' value={selectedLaps[index]} onChange={(e) => handleLapChange(index, e.target.value)}>
+                                    <select className='text-gray-900' value={selectedLaps[index]} onChange={(e) => handleLapChange(index, e.target.value)}>
                                         <option value="">Select a Lap</option>
                                         {laps[index]?.map((lap, lapIndex) => (
                                             <option key={lapIndex} value={lap.lap_number}>
