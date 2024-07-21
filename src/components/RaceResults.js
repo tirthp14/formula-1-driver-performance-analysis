@@ -15,9 +15,24 @@ const RaceResults = ({ setRaceResultsOrder }) => {
                 const driverDetailsResponse = await fetch(`https://api.openf1.org/v1/drivers?session_key=${raceSessionKey}`);
                 const driverDetailsData = await driverDetailsResponse.json();
 
+                const driverIntervalsResponse = await fetch(`https://api.openf1.org/v1/intervals?session_key=${raceSessionKey}`);
+                const driverIntervalsResponseData = await driverIntervalsResponse.json();
+
                 const driverDetailsMap = {};
                 driverDetailsData.forEach(driver => {
                     driverDetailsMap[driver.driver_number] = driver;
+                });
+
+                const driverIntervalsMap = {};
+                driverIntervalsResponseData.forEach(interval => {
+                    const driverNumber = interval.driver_number;
+                    if (!driverIntervalsMap[driverNumber] || new Date(interval.date) > new Date(driverIntervalsMap[driverNumber].date)) {
+                        driverIntervalsMap[driverNumber] = {
+                            interval: interval.interval,
+                            gapToLeader: interval.gap_to_leader,
+                            date: interval.date
+                        }
+                    }
                 });
 
                 const startingGridEntries = new Array(20).fill(null);
@@ -29,7 +44,11 @@ const RaceResults = ({ setRaceResultsOrder }) => {
                         if (!startingGridEntries[position - 1]) {
                             startingGridEntries[position - 1] = { ...entry, driverDetails: driverDetailsMap[entry.driver_number] };
                         }
-                        raceResultsEntries[position - 1] = { ...entry, driverDetails: driverDetailsMap[entry.driver_number] };
+                        raceResultsEntries[position - 1] = { 
+                            ...entry, 
+                            driverDetails: driverDetailsMap[entry.driver_number], 
+                            intervals: driverIntervalsMap[entry.driver_number] || "N/A"
+                        };
                     }
                 });
 
@@ -75,6 +94,9 @@ const RaceResults = ({ setRaceResultsOrder }) => {
                                 Driver Number: {driver.driver_number}, 
                                 Name: {driver.driverDetails?.full_name || 'Loading...'}, 
                                 Position: {driver.position}
+                                {driver.intervals ? (
+                                    `, Interval: ${driver.intervals.interval} seconds, Gap to Leader: ${driver.intervals.gapToLeader} seconds`
+                                ) : ""}
                             </li>
                         ))}
                     </ol>
