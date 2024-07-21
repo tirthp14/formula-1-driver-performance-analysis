@@ -1,14 +1,16 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { SessionContext } from "../utils/SessionContext";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 
 const CarData = () => {
     const { qualifyingSessionKey } = useContext(SessionContext);
     const [drivers, setDrivers] = useState([]);
     const [selectedDrivers, setSelectedDrivers] = useState([]);
-    const [laps, setLaps] = useState([], []);
+    const [laps, setLaps] = useState([[], []]);
     const [selectedLaps, setSelectedLaps] = useState([]);
-    const [graphingData, setGraphingData] = useState([]);
+    const [graphingData, setGraphingData] = useState([[], []]);
+
+    const colors = ["#8884d8", "#82ca9d"];
 
     useEffect(() => {
         const fetchDriverDetails = async () => {
@@ -66,9 +68,7 @@ const CarData = () => {
                 const newData = [...prevData];
                 newData[index] = graphData;
                 return newData;
-            })
-
-            console.log(graphData);
+            });
         } catch (error) {
             console.log("Error fetching Graph Data: ", error);
         }
@@ -82,7 +82,22 @@ const CarData = () => {
         }, 0)
     }
     
-    const extractGraphData = (data, startIndex, endIndex) => data.slice(startIndex, endIndex + 1);
+    const extractGraphData = (data, startIndex, endIndex) => {
+        return data.slice(startIndex, endIndex + 1).map(entry => ({
+            date: new Date(entry.date).toLocaleTimeString(),
+            speed: entry.speed,
+            brake: entry.brake,
+            throttle: entry.throttle,
+            rpm: entry.rpm,
+            drs: mapDrsValue(entry.drs),
+            n_gear: entry.n_gear 
+        }));
+    };
+
+    const mapDrsValue = (drs) => {
+        const drsOnValues = [10, 12, 14];
+        return drsOnValues.includes(drs) ? 1 : 0;
+    }
     
     const handleDriverChange = (index, value) => {
         setSelectedDrivers(prevDrivers => {
@@ -92,7 +107,7 @@ const CarData = () => {
         });
     };
 
-    const handleLapChange = (index, value) => {
+    const handleLapChange = useCallback((index, value) => {
         const selectedLap = laps[index]?.find(lap => lap.lap_number === parseInt(value));
 
         setSelectedLaps(prevLaps => {
@@ -101,8 +116,28 @@ const CarData = () => {
             return newLaps;
         });
 
-        processData(index, selectedLap.date_start, selectedLap.lap_duration);
-    };
+        if (selectedLap) {
+            processData(index, selectedLap.date_start, selectedLap.lap_duration);
+        }
+    }, [laps]);
+
+    const renderCharts = useCallback((data, driverIndex) => (
+        ["speed", "brake", "throttle", "rpm", "drs", "n_gear"].map((key, i) => (
+            <div key={key} className='relative'>
+                <h4 className='text-lg font-semibold mb-2'>{key.charAt(0).toUpperCase() + key.slice(1)}</h4>
+                <ResponsiveContainer width="100%" height={300}>
+                    <LineChart data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="#ccc" />
+                        <XAxis tick={false} axisLine={false} />
+                        <YAxis tick={{ fill: '#fff' }} />
+                        <Tooltip contentStyle={{ backgroundColor: '#333', border: 'none' }} labelStyle={{ color: '#fff' }} />
+                        <Legend />
+                        <Line type="monotone" dataKey={key} stroke={colors[driverIndex]} dot={false} />
+                    </LineChart>
+                </ResponsiveContainer>
+            </div>
+        ))
+    ), [colors]);
 
     return (
         <div className='text-white'>
@@ -140,38 +175,15 @@ const CarData = () => {
                         </div>
                     ))}
                     <div>
-                    <p>Selected Lap for Driver 1: {selectedLaps[0]?.lap_number}</p>
-                    <p>Selected Lap for Driver 2: {selectedLaps[1]?.lap_number}</p>
+                        <p>Selected Lap for Driver 1: {selectedLaps[0]?.lap_number}</p>
+                        <p>Selected Lap for Driver 2: {selectedLaps[1]?.lap_number}</p>
                     </div>
-                    <div className='relative w-2/5'>
-                        {selectedLaps[0] && (
-                            <div style={{ position: 'absolute', top: '0', left: '0', width: '100%', height: '300px', zIndex: 1 }}>
-                                <h3>Driver 1 - Lap {selectedLaps[0]?.lap_number}</h3>
-                                <ResponsiveContainer width="100%" height="100%">
-                                    <LineChart data={graphingData[0]} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                                        <CartesianGrid strokeDasharray="3 3" />
-                                        <XAxis dataKey="date" />
-                                        <YAxis />
-                                        <Tooltip />
-                                        <Line type="monotone" dataKey="speed" stroke="#8884d8" dot={false}/>
-                                    </LineChart>
-                                </ResponsiveContainer>
+                    <div className='relative w-full'>
+                        {selectedLaps.map((lap, index) => lap && (
+                            <div key={index} className='absolute top-0 left-0 w-2/5'>
+                                {renderCharts(graphingData[index], index)}
                             </div>
-                        )}
-                        {selectedLaps[1] && (
-                            <div style={{ position: 'absolute', top: '0', left: '0', width: '100%', height: '300px', zIndex: 0 }}>
-                                <h3>Driver 2 - Lap {selectedLaps[1]?.lap_number}</h3>
-                                <ResponsiveContainer width="100%" height="100%">
-                                    <LineChart data={graphingData[1]} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                                        <CartesianGrid strokeDasharray="3 3" />
-                                        <XAxis dataKey="date" />
-                                        <YAxis />
-                                        <Tooltip />
-                                        <Line type="monotone" dataKey="speed" stroke="#82ca9d" dot={false}/>
-                                    </LineChart>
-                                </ResponsiveContainer>
-                            </div>
-                        )}
+                        ))}
                     </div>
                 </>
             ) : (
