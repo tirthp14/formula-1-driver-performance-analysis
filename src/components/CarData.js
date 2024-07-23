@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { SessionContext } from "../utils/SessionContext";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 
-const CarData = () => {
+const CarData = ({setLapNumber}) => {
     const { qualifyingSessionKey } = useContext(SessionContext);
     const [drivers, setDrivers] = useState([]);
     const [selectedDrivers, setSelectedDrivers] = useState([]);
@@ -41,9 +41,11 @@ const CarData = () => {
             }
         };
 
+        setLapNumber(selectedLaps[0]?.lap_number);
+
         if (selectedDrivers[0]) fetchLapInfo(0);
         if (selectedDrivers[1]) fetchLapInfo(1);
-    }, [qualifyingSessionKey, selectedDrivers]);
+    }, [qualifyingSessionKey, selectedDrivers, setLapNumber]);
 
     const fetchCarData = async (qualifyingSessionKey, driverNumber) => {
         const response = await fetch(`https://api.openf1.org/v1/car_data?session_key=${qualifyingSessionKey}&driver_number=${driverNumber}`);
@@ -115,7 +117,7 @@ const CarData = () => {
             newLaps[index] = selectedLap;
             return newLaps;
         });
-
+        
         if (selectedLap) {
             processData(index, selectedLap.date_start, selectedLap.lap_duration);
         }
