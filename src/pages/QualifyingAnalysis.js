@@ -11,6 +11,7 @@ const QualifyingAnalysis = () => {
     const [country, setCountry] = useState("");
     const [locations, setLocations] = useState([]);
     const [lapNumber, setLapNumber] = useState("");
+    const [driverNumber, setDriverNumber] = useState("");
 
     useEffect(() => {
         const fetchLocations = async () => {
@@ -54,8 +55,8 @@ const QualifyingAnalysis = () => {
             </select>
 
             <StartingGrid />
-            <CarData setLapNumber={setLapNumber} />
-            <RaceTrack lapNumber={lapNumber} />
+            <CarData setLapNumber={setLapNumber} setDriverNumber={setDriverNumber} />
+            <RaceTrack lapNumber={lapNumber} driverNumber={driverNumber} />
         </div>
     )
 }

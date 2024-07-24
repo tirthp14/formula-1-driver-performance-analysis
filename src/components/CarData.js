@@ -2,12 +2,12 @@ import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { SessionContext } from "../utils/SessionContext";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 
-const CarData = ({setLapNumber}) => {
+const CarData = ({setLapNumber, setDriverNumber}) => {
     const { qualifyingSessionKey } = useContext(SessionContext);
     const [drivers, setDrivers] = useState([]);
     const [selectedDrivers, setSelectedDrivers] = useState([]);
     const [laps, setLaps] = useState([[], []]);
-    const [selectedLaps, setSelectedLaps] = useState([]);
+    const [selectedLaps, setSelectedLaps] = useState([], []);
     const [graphingData, setGraphingData] = useState([[], []]);
 
     const colors = ["#8884d8", "#82ca9d"];
@@ -41,11 +41,9 @@ const CarData = ({setLapNumber}) => {
             }
         };
 
-        setLapNumber(selectedLaps[0]?.lap_number);
-
         if (selectedDrivers[0]) fetchLapInfo(0);
         if (selectedDrivers[1]) fetchLapInfo(1);
-    }, [qualifyingSessionKey, selectedDrivers, setLapNumber]);
+    }, [qualifyingSessionKey, selectedDrivers]);
 
     const fetchCarData = async (qualifyingSessionKey, driverNumber) => {
         const response = await fetch(`https://api.openf1.org/v1/car_data?session_key=${qualifyingSessionKey}&driver_number=${driverNumber}`);
@@ -120,8 +118,15 @@ const CarData = ({setLapNumber}) => {
         
         if (selectedLap) {
             processData(index, selectedLap.date_start, selectedLap.lap_duration);
+            setLapNumber(selectedLaps[0]?.lap_number);
         }
-    }, [laps]);
+
+        if (index === 0 && selectedLap) {
+            setLapNumber(selectedLap.lap_number);
+            setDriverNumber(selectedDrivers[index]);
+        }
+
+    }, [laps, setLapNumber, setDriverNumber, selectedDrivers]);
 
     const renderCharts = useCallback((data, driverIndex) => (
         ["speed", "brake", "throttle", "rpm", "drs", "n_gear"].map((key, i) => (
