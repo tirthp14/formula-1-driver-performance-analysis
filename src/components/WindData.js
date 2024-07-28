@@ -3,17 +3,17 @@ import { SessionContext } from "../utils/SessionContext";
 import { calculateAvgWindDirection, calculateAvgWindSpeed, calculateAvgAirTemp, calculateAvgTrackTemp } from "../utils/WindDirectionFormatting"
 
 const WindData = () => {
-    const {sessionKey} = useContext(SessionContext)
+    const {raceSessionKey} = useContext(SessionContext)
     const [avgWindDirection, setAvgWindDirection] = useState(null);
     const [avgWindSpeed, setAvgWindSpeed] = useState(null);
     const [avgAirTemp, setAvgAirTemp] = useState(null);
     const [avgTrackTemp, setAvgTrackTemp] = useState(null);
 
     useEffect(() => {
-        if (sessionKey) {
+        if (raceSessionKey) {
             const fetchWindData = async () => {
                 try {
-                    const response = await fetch(`https://api.openf1.org/v1/weather?session_key=${sessionKey}`)
+                    const response = await fetch(`https://api.openf1.org/v1/weather?session_key=${raceSessionKey}`)
 
                     const data = await response.json();
 
@@ -37,7 +37,7 @@ const WindData = () => {
             };
             fetchWindData();
         }
-    }, [sessionKey]);
+    }, [raceSessionKey]);
 
     return (
         <div>

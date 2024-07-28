@@ -1,7 +1,4 @@
-import { Link, Routes } from "react-router-dom";
-import Home from "./App";
-import RaceAnalysis from "./RaceAnalysis";
-import QualifyingAnalysis from "./QualifyingAnalysis";
+import { Link } from "react-router-dom";
 
 function Navbar() {
     return (
