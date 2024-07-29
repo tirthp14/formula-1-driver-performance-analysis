@@ -40,23 +40,35 @@ const QualifyingAnalysis = () => {
     }, [country, year, setQualifyingSessionKey])
 
     return (
-        <div>
-            <h2>Qualifying Analysis</h2>
-            <select onChange={(e) => setYear(e.target.value)} value={year}>
+        <div className="font-main text-neutral-100">
+            <select className="text-black" onChange={(e) => setYear(e.target.value)} value={year}>
                 <option value="">Select Year</option>
                 <option value="2024">2024</option>
                 <option value="2023">2023</option>
             </select>
-            <select onChange={(e) => setCountry(e.target.value)} value={country}>
+            <select className="text-black" onChange={(e) => setCountry(e.target.value)} value={country}>
                 <option value="">Select Grand Prix</option>
                 {locations.map(location => (
                     <option key={location.meeting_key} value={location.country_name}>{location.meeting_name}</option>
                 ))}
             </select>
 
-            <StartingGrid />
-            <CarData setLapNumber={setLapNumber} setDriverNumber={setDriverNumber} />
-            <RaceTrack lapNumber={lapNumber} driverNumber={driverNumber} />
+            <div className="px-16">
+                {year && country && (
+                    <div className="flex uppercase text-4xl font-extrabold tracking-wide py-4">
+                        <h1>{year}</h1>
+                        <h1 className="pl-2">{country}</h1>
+                        <p className="px-2">-</p>
+                        <h1>Qualifying Analysis</h1>
+                    </div>
+                )}
+                <hr className="h-[3px] border-0 bg-lineBackground"></hr>
+
+                <CarData setLapNumber={setLapNumber} setDriverNumber={setDriverNumber} />
+                <RaceTrack lapNumber={lapNumber} driverNumber={driverNumber} />
+                <StartingGrid />
+            </div>
+
         </div>
     )
 }

@@ -148,7 +148,6 @@ const CarData = ({setLapNumber, setDriverNumber}) => {
 
     return (
         <div className='text-white'>
-            <h2>Car Data</h2>
             {qualifyingSessionKey ? (
                 <>
                     {[0, 1].map((index) => (
