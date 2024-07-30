@@ -3,15 +3,12 @@ import { SessionContext } from "../utils/SessionContext"
 import { fetchSessionKey } from "../utils/FetchSessionKey";
 import StartingGrid from "../components/StartingGrid";
 import CarData from "../components/CarData";
-import RaceTrack from "../components/RaceTrack";
 
 const QualifyingAnalysis = () => {
     const { setQualifyingSessionKey } = useContext(SessionContext);
     const [year, setYear] = useState("");
     const [country, setCountry] = useState("");
     const [locations, setLocations] = useState([]);
-    const [lapNumber, setLapNumber] = useState("");
-    const [driverNumber, setDriverNumber] = useState("");
 
     useEffect(() => {
         const fetchLocations = async () => {
@@ -64,8 +61,7 @@ const QualifyingAnalysis = () => {
                 )}
                 <hr className="h-[3px] border-0 bg-lineBackground"></hr>
 
-                <CarData setLapNumber={setLapNumber} setDriverNumber={setDriverNumber} />
-                <RaceTrack lapNumber={lapNumber} driverNumber={driverNumber} />
+                <CarData />
                 <StartingGrid />
             </div>
 

@@ -1,14 +1,17 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { SessionContext } from "../utils/SessionContext";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
+import RaceTrack from './RaceTrack';
 
-const CarData = ({setLapNumber, setDriverNumber}) => {
+const CarData = () => {
     const { qualifyingSessionKey } = useContext(SessionContext);
     const [drivers, setDrivers] = useState([]);
     const [selectedDrivers, setSelectedDrivers] = useState([]);
     const [laps, setLaps] = useState([[], []]);
-    const [selectedLaps, setSelectedLaps] = useState([], []);
+    const [selectedLaps, setSelectedLaps] = useState([null, null]);
     const [graphingData, setGraphingData] = useState([[], []]);
+    const [lapNumber, setLapNumber] = useState("");
+    const [driverNumber, setDriverNumber] = useState("");
 
     const colors = ["#8884d8", "#82ca9d"];
 
@@ -114,7 +117,7 @@ const CarData = ({setLapNumber, setDriverNumber}) => {
             const newLaps = [...prevLaps];
             newLaps[index] = selectedLap;
             return newLaps;
-        });
+        });        
         
         if (selectedLap) {
             processData(index, selectedLap.date_start, selectedLap.lap_duration);
@@ -125,7 +128,6 @@ const CarData = ({setLapNumber, setDriverNumber}) => {
             setLapNumber(selectedLap.lap_number);
             setDriverNumber(selectedDrivers[index]);
         }
-
     }, [laps, setLapNumber, setDriverNumber, selectedDrivers]);
 
     const renderCharts = useCallback((data, driverIndex) => (
@@ -146,43 +148,72 @@ const CarData = ({setLapNumber, setDriverNumber}) => {
         ))
     ), [colors]);
 
+    const canRenderRaceTrack = selectedDrivers[0] && selectedDrivers[1] && selectedLaps[0] && selectedLaps[1];
+
     return (
-        <div className='text-white'>
+        <div>
             {qualifyingSessionKey ? (
                 <>
-                    {[0, 1].map((index) => (
-                        <div key={index}>
+                    <div className='flex'>
+                        <div className='driver'>
+                            <h2>Driver 1:</h2>
+                            <label>
+                                Select Driver 1:
+                                <select className='text-gray-900' value={selectedDrivers[0]} onChange={(e) => handleDriverChange(0, e.target.value)}>
+                                    <option value="">Select a Driver</option>
+                                    {drivers.map((driver) => (
+                                        <option key={driver.driver_number} value={driver.driver_number}>
+                                            {driver.full_name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </label>
+                            <label>
+                                Select Lap for Driver 1:
+                                <select className='text-gray-900' value={selectedLaps[0]} onChange={(e) => handleLapChange(0, e.target.value)}>
+                                    <option value="">Select a Lap</option>
+                                    {laps[0]?.map((lap, lapIndex) => (
+                                        <option key={lapIndex} value={lap.lap_number}>
+                                            Lap {lap.lap_number} - {lap.lap_duration}
+                                        </option>
+                                    ))}
+                                </select>
+                            </label>
                             <div>
-                                <label>
-                                    Select Driver {index + 1}:
-                                    <select className='text-gray-900' value={selectedDrivers[index]} onChange={(e) => handleDriverChange(index, e.target.value)}>
-                                        <option value="">Select a Driver</option>
-                                        {drivers.map((driver) => (
-                                            <option key={driver.driver_number} value={driver.driver_number}>
-                                                {driver.full_name}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </label>
-                            </div>
-                            <div>
-                                <label>
-                                    Select Lap for Driver {index + 1}:
-                                    <select className='text-gray-900' value={selectedLaps[index]} onChange={(e) => handleLapChange(index, e.target.value)}>
-                                        <option value="">Select a Lap</option>
-                                        {laps[index]?.map((lap, lapIndex) => (
-                                            <option key={lapIndex} value={lap.lap_number}>
-                                                Lap {lap.lap_number} - {lap.lap_duration}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </label>
+                                <p>Selected Lap for Driver 1: {selectedLaps[0]?.lap_number}</p>
                             </div>
                         </div>
-                    ))}
-                    <div>
-                        <p>Selected Lap for Driver 1: {selectedLaps[0]?.lap_number}</p>
-                        <p>Selected Lap for Driver 2: {selectedLaps[1]?.lap_number}</p>
+                        {canRenderRaceTrack && (
+                            <RaceTrack lapNumber={lapNumber} driverNumber={driverNumber} />
+                        )}
+                        <div className='driver'>
+                            <h2>Driver 2:</h2>
+                            <label>
+                                Select Driver 2:
+                                <select className='text-gray-900' value={selectedDrivers[1]} onChange={(e) => handleDriverChange(1, e.target.value)}>
+                                    <option value="">Select a Driver</option>
+                                    {drivers.map((driver) => (
+                                        <option key={driver.driver_number} value={driver.driver_number}>
+                                            {driver.full_name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </label>
+                            <label>
+                                Select Lap for Driver 2:
+                                <select className='text-gray-900' value={selectedLaps[1]} onChange={(e) => handleLapChange(1, e.target.value)}>
+                                    <option value="">Select a Lap</option>
+                                    {laps[1]?.map((lap, lapIndex) => (
+                                        <option key={lapIndex} value={lap.lap_number}>
+                                            Lap {lap.lap_number} - {lap.lap_duration}
+                                        </option>
+                                    ))}
+                                </select>
+                            </label>
+                            <div>
+                                <p>Selected Lap for Driver 2: {selectedLaps[1]?.lap_number}</p>
+                            </div>
+                        </div>
                     </div>
                     <div className='relative w-full'>
                         {selectedLaps.map((lap, index) => lap && (
