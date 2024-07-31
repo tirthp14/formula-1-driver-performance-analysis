@@ -49,8 +49,6 @@ const RaceTrack = ({lapNumber, driverNumber}) => {
             const endIndex = findClosestIndex(data, endTime);
 
             setTrackData(data.slice(startIndex, endIndex + 1));
-
-            console.log(trackData)
         } catch (error) {
             console.log("Error fetching Graph Data: ", error);
         }
