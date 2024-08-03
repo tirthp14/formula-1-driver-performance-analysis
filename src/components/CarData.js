@@ -1,7 +1,9 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
+import RaceTrack from './RaceTrack';
+import { formatLapTime } from '../utils/FormatTime';
+import SegmentsDivs from './SectorTimes';
 import { SessionContext } from "../utils/SessionContext";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
-import RaceTrack from './RaceTrack';
 
 const CarData = () => {
     const { qualifyingSessionKey } = useContext(SessionContext);
@@ -128,6 +130,8 @@ const CarData = () => {
             setLapNumber(selectedLap.lap_number);
             setDriverNumber(selectedDrivers[index]);
         }
+        console.log(selectedLaps[0])
+        console.log(selectedLaps[1])
     }, [laps, setLapNumber, setDriverNumber, selectedDrivers]);
 
     const renderCharts = useCallback((data, driverIndex) => (
@@ -149,6 +153,17 @@ const CarData = () => {
     ), [colors]);
 
     const canRenderRaceTrack = selectedDrivers[0] && selectedDrivers[1] && selectedLaps[0] && selectedLaps[1];
+
+    const calculateGap = () => {
+        if (selectedLaps[0] && selectedLaps[1]) {
+            const gap = selectedLaps[0].lap_duration - selectedLaps[1].lap_duration;
+            const sign = gap < 0 ? '-' : '+';
+            return `${sign}${Math.abs(gap).toFixed(3)}s`;
+        }
+        return null;
+    };    
+
+    const gap = calculateGap();
 
     return (
         <div>
@@ -178,22 +193,34 @@ const CarData = () => {
                                     )}
                                 </div>
                             </div>
-                            <div>
-                                <label>
-                                    Select Lap for Driver 1:
-                                    <select className='text-gray-900' value={selectedLaps[0]} onChange={(e) => handleLapChange(0, e.target.value)}>
-                                        <option value="">Select a Lap</option>
-                                        {laps[0]?.map((lap, lapIndex) => (
-                                            <option key={lapIndex} value={lap.lap_number}>
-                                                Lap {lap.lap_number} - {lap.lap_duration}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </label>
+                            <div className='flex'>
+                                <div>
+                                    {selectedLaps[0] && (
+                                        <h3 className='text-xl font-bold mb-2'>
+                                            LAP {selectedLaps[0].lap_number}
+                                        </h3>
+                                    )}
+                                    <label>
+                                        <select className='text-gray-900' value={selectedLaps[0]?.lap_number} onChange={(e) => handleLapChange(0, e.target.value)}>
+                                            <option value="">Select Lap</option>
+                                            {laps[0]?.map((lap, lapIndex) => (
+                                                <option key={lapIndex} value={lap.lap_number}>
+                                                    {formatLapTime(lap.lap_duration)}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </label>
+                                </div>
+                                {gap && (
+                                    <div className="gap-section text-center">
+                                        <h4 className='text-xl font-bold mb-2'>GAP</h4>
+                                        <p className={`text-2xl font-semibold ${gap.startsWith('-') ? 'text-green-600' : 'text-red-600'}`}>
+                                            {gap}
+                                        </p>
+                                    </div>
+                                )}
                             </div>
-                            <div>
-                                <p>Selected Lap for Driver 1: {selectedLaps[0]?.lap_number}</p>
-                            </div>
+                            <SegmentsDivs selectedLap={selectedLaps[0]} />
                         </div>
                         {canRenderRaceTrack && (
                             <RaceTrack lapNumber={lapNumber} driverNumber={driverNumber} />
