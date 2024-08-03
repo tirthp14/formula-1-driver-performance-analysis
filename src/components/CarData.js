@@ -172,9 +172,9 @@ const CarData = () => {
                                         ))}
                                     </select>
                                 </label>
-                                <div>
+                                <div >
                                     {selectedDrivers[0] && (
-                                        <img src={`../assets/Constructors/${drivers.find(driver => driver.driver_number === Number(selectedDrivers[0]))?.team_name}.png`} alt="Driver Team Logo" />
+                                        <img className='object-contain w-16 h-16' src={require(`../assets/Constructors Logo/${drivers.find(driver => driver.driver_number === Number(selectedDrivers[0]))?.team_name}.png`)} alt="Driver Team Logo" />
                                     )}
                                 </div>
                             </div>
