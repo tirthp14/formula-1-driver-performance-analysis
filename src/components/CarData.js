@@ -130,8 +130,6 @@ const CarData = () => {
             setLapNumber(selectedLap.lap_number);
             setDriverNumber(selectedDrivers[index]);
         }
-        console.log(selectedLaps[0])
-        console.log(selectedLaps[1])
     }, [laps, setLapNumber, setDriverNumber, selectedDrivers]);
 
     const renderCharts = useCallback((data, driverIndex) => (
@@ -154,110 +152,159 @@ const CarData = () => {
 
     const canRenderRaceTrack = selectedDrivers[0] && selectedDrivers[1] && selectedLaps[0] && selectedLaps[1];
 
-    const calculateGap = () => {
+    const calculateGaps = () => {
         if (selectedLaps[0] && selectedLaps[1]) {
-            const gap = selectedLaps[0].lap_duration - selectedLaps[1].lap_duration;
-            const sign = gap < 0 ? '-' : '+';
-            return `${sign}${Math.abs(gap).toFixed(3)}s`;
+            const lapDuration1 = selectedLaps[0].lap_duration;
+            const lapDuration2 = selectedLaps[1].lap_duration;
+    
+            // Calculate gaps
+            const gap1 = lapDuration1 - lapDuration2;
+            const gap2 = lapDuration2 - lapDuration1;
+    
+            // Determine which driver is faster and format gaps
+            const gapDriver1 = gap1 < 0 ? `-${Math.abs(gap1).toFixed(3)}s` : `+${Math.abs(gap1).toFixed(3)}s`;
+            const gapDriver2 = gap2 < 0 ? `-${Math.abs(gap2).toFixed(3)}s` : `+${Math.abs(gap2).toFixed(3)}s`;
+    
+            return [gapDriver1, gapDriver2];
         }
-        return null;
-    };    
+        return [null, null];
+    };
+    
+    const [gapDriver1, gapDriver2] = calculateGaps();
+    
 
-    const gap = calculateGap();
+    const getTeamColor = (index) => {
+        if (selectedLaps[0] && selectedLaps[1]) {
+            const driver = drivers.find(driver => driver.driver_number === Number(selectedDrivers[index]));
+            return `#${driver.team_colour}`;
+        }
+    }
 
     return (
         <div>
             {qualifyingSessionKey ? (
                 <>
                     <div className='flex gap-6'>
-                        <div className='driver-1'>
-                            <div className='flex'>
-                                <div>
-                                    {selectedDrivers[0] && (
-                                        <img src={drivers.find(driver => driver.driver_number === Number(selectedDrivers[0]))?.headshot_url} alt="Driver Headshot" />
-                                    )}
-                                </div>
-                                <label>
-                                    <select className='text-gray-900' value={selectedDrivers[0]} onChange={(e) => handleDriverChange(0, e.target.value)}>
-                                    <option value="">Select Driver</option>
-                                        {drivers.map((driver) => (
-                                            <option key={driver.driver_number} value={driver.driver_number}>
-                                                {driver.full_name}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </label>
-                                <div >
-                                    {selectedDrivers[0] && (
-                                        <img className='object-contain w-16 h-16' src={require(`../assets/Constructors Logo/${drivers.find(driver => driver.driver_number === Number(selectedDrivers[0]))?.team_name}.png`)} alt="Driver Team Logo" />
-                                    )}
-                                </div>
-                            </div>
-                            <div className='flex'>
-                                <div>
-                                    {selectedLaps[0] && (
-                                        <h3 className='text-xl font-bold mb-2'>
-                                            LAP {selectedLaps[0].lap_number}
-                                        </h3>
-                                    )}
+                        <div className='driver-1 flex flex-col gap-4 pt-2 pl-3'>
+                            <div>
+                                <h1 className='mb-1'>DRIVER</h1>
+                                <div className='flex justify-between p-2' style={{ backgroundColor: getTeamColor(0)}}>
+                                    <div>
+                                        {selectedDrivers[0] && (
+                                            <img className='w-16 h-16' src={drivers.find(driver => driver.driver_number === Number(selectedDrivers[0]))?.headshot_url} alt="Driver Headshot" />
+                                        )}
+                                    </div>
                                     <label>
-                                        <select className='text-gray-900' value={selectedLaps[0]?.lap_number} onChange={(e) => handleLapChange(0, e.target.value)}>
-                                            <option value="">Select Lap</option>
-                                            {laps[0]?.map((lap, lapIndex) => (
-                                                <option key={lapIndex} value={lap.lap_number}>
-                                                    {formatLapTime(lap.lap_duration)}
+                                        <select className='text-gray-900 bg-transparent' value={selectedDrivers[0]} onChange={(e) => handleDriverChange(0, e.target.value)}>
+                                        <option value="">Select Driver</option>
+                                            {drivers.map((driver) => (
+                                                <option key={driver.driver_number} value={driver.driver_number}>
+                                                    {driver.full_name}
                                                 </option>
                                             ))}
                                         </select>
                                     </label>
+                                    <div >
+                                        {selectedDrivers[0] && (
+                                            <img className='object-contain w-16 h-16' src={require(`../assets/Constructors Logo/${drivers.find(driver => driver.driver_number === Number(selectedDrivers[0]))?.team_name}.png`)} alt="Driver Team Logo" />
+                                        )}
+                                    </div>
                                 </div>
-                                {gap && (
+                            </div>
+                            <div className='flex justify-between mt-2'>
+                                {selectedLaps[0] && (
+                                    <div>
+                                        <h4 className='text-xl font-bold mb-2'>LAP NUMBER</h4>
+                                        <p className='text-xl font-bold'>
+                                            {selectedLaps[0].lap_number}
+                                        </p>
+                                    </div>
+                                )}
+                                <label>
+                                    <h4 className='text-xl font-bold mb-2'>LAP TIME</h4>
+                                    <select className='text-gray-900' value={selectedLaps[0]?.lap_number} onChange={(e) => handleLapChange(0, e.target.value)}>
+                                        <option value="">Select Lap</option>
+                                        {laps[0]?.map((lap, lapIndex) => (
+                                            <option key={lapIndex} value={lap.lap_number}>
+                                                {formatLapTime(lap.lap_duration)}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </label>
+                                {gapDriver1 && (
                                     <div className="gap-section text-center">
                                         <h4 className='text-xl font-bold mb-2'>GAP</h4>
-                                        <p className={`text-2xl font-semibold ${gap.startsWith('-') ? 'text-green-600' : 'text-red-600'}`}>
-                                            {gap}
+                                        <p className={`text-2xl font-semibold ${gapDriver1.startsWith('-') ? 'text-green-600' : 'text-red-600'}`}>
+                                            {gapDriver1}
                                         </p>
                                     </div>
                                 )}
                             </div>
-                            <SegmentsDivs selectedLap={selectedLaps[0]} />
+                            {selectedLaps[0] && (
+                                <SegmentsDivs selectedLap={selectedLaps[0]} />
+                            )}
                         </div>
                         {canRenderRaceTrack && (
                             <RaceTrack lapNumber={lapNumber} driverNumber={driverNumber} />
                         )}
-                        <div className='driver-1'>
-                            <div className='flex'>
-                                <label>
-                                    <select className='text-gray-900' value={selectedDrivers[1]} onChange={(e) => handleDriverChange(1, e.target.value)}>
-                                    <option value="">Select Driver</option>
-                                        {drivers.map((driver) => (
-                                            <option key={driver.driver_number} value={driver.driver_number}>
-                                                {driver.full_name}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </label>
-                                <div>
-                                    {selectedDrivers[1] && (
-                                        <img src={drivers.find(driver => driver.driver_number === Number(selectedDrivers[1]))?.headshot_url} alt="Driver Headshot" />                                    )}
+                        <div className='driver-2 flex flex-col gap-4 pt-2 pl-3'>
+                            <div>
+                                <h1 className='mb-1'>DRIVER</h1>
+                                <div className='flex justify-between p-2' style={{ backgroundColor: getTeamColor(1)}}>
+                                    <div>
+                                        {selectedDrivers[1] && (
+                                            <img className='w-16 h-16' src={drivers.find(driver => driver.driver_number === Number(selectedDrivers[1]))?.headshot_url} alt="Driver Headshot" />
+                                        )}
+                                    </div>
+                                    <label>
+                                        <select className='text-gray-900 bg-transparent' value={selectedDrivers[1]} onChange={(e) => handleDriverChange(1, e.target.value)}>
+                                        <option value="">Select Driver</option>
+                                            {drivers.map((driver) => (
+                                                <option key={driver.driver_number} value={driver.driver_number}>
+                                                    {driver.full_name}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </label>
+                                    <div >
+                                        {selectedDrivers[1] && (
+                                            <img className='object-contain w-16 h-16' src={require(`../assets/Constructors Logo/${drivers.find(driver => driver.driver_number === Number(selectedDrivers[1]))?.team_name}.png`)} alt="Driver Team Logo" />
+                                        )}
+                                    </div>
                                 </div>
                             </div>
-                            <div>
+                            <div className='flex justify-between mt-2'>
+                                {selectedLaps[1] && (
+                                    <div>
+                                        <h4 className='text-xl font-bold mb-2'>LAP NUMBER</h4>
+                                        <p className='text-xl font-bold'>
+                                            {selectedLaps[1].lap_number}
+                                        </p>
+                                    </div>
+                                )}
                                 <label>
-                                    Select Lap for Driver 1:
-                                    <select className='text-gray-900' value={selectedLaps[1]} onChange={(e) => handleLapChange(1, e.target.value)}>
-                                        <option value="">Select a Lap</option>
+                                    <h4 className='text-xl font-bold mb-2'>LAP TIME</h4>
+                                    <select className='text-gray-900' value={selectedLaps[1]?.lap_number} onChange={(e) => handleLapChange(1, e.target.value)}>
+                                        <option value="">Select Lap</option>
                                         {laps[1]?.map((lap, lapIndex) => (
                                             <option key={lapIndex} value={lap.lap_number}>
-                                                Lap {lap.lap_number} - {lap.lap_duration}
+                                                {formatLapTime(lap.lap_duration)}
                                             </option>
                                         ))}
                                     </select>
                                 </label>
+                                {gapDriver2 && (
+                                    <div className="gap-section text-center">
+                                        <h4 className='text-xl font-bold mb-2'>GAP</h4>
+                                        <p className={`text-2xl font-semibold ${gapDriver2.startsWith('-') ? 'text-green-600' : 'text-red-600'}`}>
+                                            {gapDriver2}
+                                        </p>
+                                    </div>
+                                )}
                             </div>
-                            <div>
-                                <p>Selected Lap for Driver 1: {selectedLaps[1]?.lap_number}</p>
-                            </div>
+                            {selectedLaps[1] && (
+                                <SegmentsDivs selectedLap={selectedLaps[1]} />
+                            )}
                         </div>
                     </div>
                     <div className='relative w-full'>

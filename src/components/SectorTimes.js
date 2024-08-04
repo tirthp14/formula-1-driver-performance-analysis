@@ -25,7 +25,7 @@ const SegmentsDivs = ({ selectedLap }) => {
           <h3 className="text-xl font-bold">
             {sector.name}
           </h3>
-          <h2>
+          <h2 className='mb-1.5'>
             {sector.duration}s
           </h2>
           <div className="flex gap-[2px] w-fit bg-transparent">

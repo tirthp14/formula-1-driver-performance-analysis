@@ -63,6 +63,10 @@ const RaceTrack = ({lapNumber, driverNumber}) => {
     }
 
     const renderPlot = () => {
+        const width = 600;
+        const height = 400;
+
+
         if (trackData.length === 0) return null;
 
         const xValues = trackData.map(d => d.x);
@@ -76,7 +80,8 @@ const RaceTrack = ({lapNumber, driverNumber}) => {
             mode: 'lines',
             line: { width: 10, color: '#FFF' },
             type: 'scatter3d',
-            hoverinfo: 'none'
+            hoverinfo: 'none',
+            showlegend: false
         };
 
         const traceMarkers = {
@@ -86,8 +91,8 @@ const RaceTrack = ({lapNumber, driverNumber}) => {
             mode: 'markers',
             marker: { size: 8, color: 'green', opacity: 0.8 },
             type: 'scatter3d',
-            name: 'Start Line',
-            hoverinfo: 'none'
+            hoverinfo: 'none',
+            showlegend: false,
         };
 
         const plotData = [trace1, traceMarkers];
@@ -105,23 +110,30 @@ const RaceTrack = ({lapNumber, driverNumber}) => {
                         y: yValues[0],
                         z: zValues[0],
                         text: 'Start',
+                        color: '#FFF',
                         showarrow: true,
                         arrowhead: 2,
                         ax: 0,
-                        ay: -75,
+                        ay: -45,
                     }
                 ],
             },
             margin: { t: 0, b: 0, l: 0, r: 0 },
             paper_bgcolor: 'transparent',
             plot_bgcolor: 'transparent',
-            showlegend: true,
+            autosize: false,
+            width: width,
+            height: height
         };
 
-        return <Plot data={plotData} layout={layout} />;
+        const config = {
+            displayModeBar: false
+        };
+
+        return <Plot data={plotData} layout={layout} config={config} />;
     };
 
-    return <div>{renderPlot()}</div>
+    return <div className="w-full">{renderPlot()}</div>
 };
 
 export default RaceTrack;
