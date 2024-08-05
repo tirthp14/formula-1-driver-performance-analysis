@@ -59,7 +59,6 @@ const QualifyingAnalysis = () => {
                         <h1>Qualifying Analysis</h1>
                     </div>
                 )}
-                <hr className="h-[3px] border-0 bg-lineBackground"></hr>
 
                 <CarData />
                 <StartingGrid />

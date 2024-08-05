@@ -63,10 +63,6 @@ const RaceTrack = ({lapNumber, driverNumber}) => {
     }
 
     const renderPlot = () => {
-        const width = 600;
-        const height = 400;
-
-
         if (trackData.length === 0) return null;
 
         const xValues = trackData.map(d => d.x);
@@ -121,19 +117,17 @@ const RaceTrack = ({lapNumber, driverNumber}) => {
             margin: { t: 0, b: 0, l: 0, r: 0 },
             paper_bgcolor: 'transparent',
             plot_bgcolor: 'transparent',
-            autosize: false,
-            width: width,
-            height: height
+            autosize: true,
         };
 
         const config = {
             displayModeBar: false
         };
 
-        return <Plot data={plotData} layout={layout} config={config} />;
+        return <Plot data={plotData} layout={layout} config={config} className='w-full h-full'/>;
     };
 
-    return <div className="w-full">{renderPlot()}</div>
+    return <div className="min-w-fit w-full max-w-full h-72">{renderPlot()}</div>
 };
 
 export default RaceTrack;

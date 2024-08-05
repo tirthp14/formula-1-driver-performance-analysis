@@ -1,6 +1,7 @@
 import React from 'react';
 
 const SegmentsDivs = ({ selectedLap }) => {
+
   const data = [
     { name: 'Sector 1', duration: selectedLap?.duration_sector_1, segments: selectedLap?.segments_sector_1 },
     { name: 'Sector 2', duration: selectedLap?.duration_sector_2, segments: selectedLap?.segments_sector_2 },

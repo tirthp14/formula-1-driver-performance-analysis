@@ -36,7 +36,6 @@ const StartingGrid = () => {
 
     return (
         <div>
-            <p className="text-white">This is the starting grid page, kinda!!</p>
             {startingGrid ? (
                 <ol className="text-white">
                     {startingGrid.map((driver, index) => (

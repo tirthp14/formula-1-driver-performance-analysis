@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect, useCallback } from 'react';
 import RaceTrack from './RaceTrack';
 import { formatLapTime } from '../utils/FormatTime';
 import SegmentsDivs from './SectorTimes';
+import { getOppositeColor } from '../utils/Color';
 import { SessionContext } from "../utils/SessionContext";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 
@@ -184,8 +185,9 @@ const CarData = () => {
         <div>
             {qualifyingSessionKey ? (
                 <>
-                    <div className='flex gap-6'>
-                        <div className='driver-1 flex flex-col gap-4 pt-2 pl-3'>
+                    <hr className="h-[3px] border-0 bg-lineBackground"></hr>
+                    <div className='w-full h-fit flex gap-6'>
+                        <div className='max-w-full driver-1 flex flex-col gap-4 pt-2'>
                             <div>
                                 <h1 className='mb-1'>DRIVER</h1>
                                 <div className='flex justify-between p-2' style={{ backgroundColor: getTeamColor(0)}}>
@@ -247,10 +249,10 @@ const CarData = () => {
                         {canRenderRaceTrack && (
                             <RaceTrack lapNumber={lapNumber} driverNumber={driverNumber} />
                         )}
-                        <div className='driver-2 flex flex-col gap-4 pt-2 pl-3'>
+                        <div className='w-max driver-2 flex flex-col gap-4 pt-2'>
                             <div>
                                 <h1 className='mb-1'>DRIVER</h1>
-                                <div className='flex justify-between p-2' style={{ backgroundColor: getTeamColor(1)}}>
+                                <div className='flex justify-between p-2' style={{ backgroundColor: selectedLaps[1] ? getOppositeColor(getTeamColor(1)) : undefined}}>
                                     <div>
                                         {selectedDrivers[1] && (
                                             <img className='w-16 h-16' src={drivers.find(driver => driver.driver_number === Number(selectedDrivers[1]))?.headshot_url} alt="Driver Headshot" />
@@ -316,7 +318,7 @@ const CarData = () => {
                     </div>
                 </>
             ) : (
-                <p>Loading...</p>
+                <img className='w-1/3 h-1/3' src={require('../assets/lotties/Loading Lottie.gif')} />
             )}
         </div>
     );
