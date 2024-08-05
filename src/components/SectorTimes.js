@@ -20,26 +20,31 @@ const SegmentsDivs = ({ selectedLap }) => {
   };
 
   return (
-    <div className="flex flex-row gap-4 items-center">
-      {data.map((sector, sectorIndex) => (
-        <div key={sectorIndex} className="mb-6 text-center">
-          <h3 className="text-xl font-bold">
-            {sector.name}
-          </h3>
-          <h2 className='mb-1.5'>
-            {sector.duration}s
-          </h2>
-          <div className="flex gap-[2px] w-fit bg-transparent">
-            {sector.segments?.map((value, segmentIndex) => (
-              <div
-                key={segmentIndex}
-                className={`w-[14px] h-1 ${colors[value]}`}
-              />
-            ))}
-          </div>
+    <>
+      <div>
+        <h1 className='text-xs'>SECTOR TIMES</h1>
+        <div className="flex flex-row gap-4 items-center">
+          {data.map((sector, sectorIndex) => (
+            <div key={sectorIndex} className="mb-6 text-center">
+              <h3 className="text-xl font-bold">
+                {sector.name}
+              </h3>
+              <h2 className='mb-1.5'>
+                {sector.duration}s
+              </h2>
+              <div className="flex gap-[2px] w-fit bg-transparent">
+                {sector.segments?.map((value, segmentIndex) => (
+                  <div
+                    key={segmentIndex}
+                    className={`w-[14px] h-1 ${colors[value]}`}
+                  />
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
-      ))}
-    </div>
+        </div>
+    </>
   );
 };
 

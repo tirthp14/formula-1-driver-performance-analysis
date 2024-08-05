@@ -1,10 +1,9 @@
-// colorUtils.js
-
 /**
  * Convert hex color to RGB format.
  * @param {string} hex - The hex color string.
  * @returns {object} The RGB color object.
  */
+
 const hexToRgb = (hex) => {
     let r = 0, g = 0, b = 0;
     
