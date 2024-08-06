@@ -142,7 +142,7 @@ const CarData = () => {
         const driverColor = driverIndex === 0 ? getTeamColor(0) : getOppositeColor(getTeamColor(1));
     
         return ["speed", "brake", "throttle", "rpm", "drs", "n_gear"].map((key) => (
-            <div key={key} className='relative'>
+            <div key={key} className='relative w-[680px]'>
                 <ResponsiveContainer fill="gray" width="100%" height={300}>
                     <LineChart data={data}>
                         <CartesianGrid fillOpacity={0.1} strokeDasharray="0" stroke="#ccc" strokeOpacity={0.1} />
@@ -184,9 +184,9 @@ const CarData = () => {
                 <>
                     <hr className="h-[3px] border-0 bg-lineBackground"></hr>
                     <div className='w-full h-fit flex gap-8'>
-                        <div className='max-w-full driver-1 flex flex-col gap-4 pt-2'>
+                        <div className='w-2/5 driver-1 flex flex-col gap-2 pt-2'>
                             <div>
-                                <h1 className='mb-1 text-xs'>DRIVER</h1>
+                                <h1 className='mb-1 text-sm font-semibold text-gray-600'>DRIVER</h1>
                                 <div className='border-l-[5px]' style={{ backgroundColor: selectedLaps[0] ? getTeamColor(0) + '1A' : "rgba(255, 255, 255, 0.2)", borderColor: selectedLaps[0] ? getTeamColor(0) : "white"}}>
                                     <div className='flex justify-between items-center p-2'>
                                         <div>
@@ -195,7 +195,7 @@ const CarData = () => {
                                             )}
                                         </div>
                                         <label>
-                                            <select className='bg-transparent text-2xl' value={selectedDrivers[0]} onChange={(e) => handleDriverChange(0, e.target.value)}>
+                                            <select className='bg-transparent text-2xl font-bold' value={selectedDrivers[0]} onChange={(e) => handleDriverChange(0, e.target.value)}>
                                             <option className='bg-gray-500 text-base' value="">Select Driver</option>
                                                 {drivers.map((driver) => (
                                                     <option className='bg-gray-500 text-base' key={driver.driver_number} value={driver.driver_number}>
@@ -212,30 +212,30 @@ const CarData = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className='flex justify-between items-center mt-2'>
+                            <div className='flex justify-between mt-2'>
                                 {selectedLaps[0] && (
-                                    <div>
-                                        <h4 className='mb-2 text-xs'>LAP NUMBER</h4>
-                                        <p className='text-xl font-bold'>
+                                    <div className='flex flex-col justify-start'>
+                                        <h4 className='text-sm mb-[5px] font-semibold text-gray-600'>LAP NUMBER</h4>
+                                        <p className='text-3xl font-bold italic'>
                                             {selectedLaps[0].lap_number}
                                         </p>
                                     </div>
                                 )}
                                 <label>
-                                    <h4 className='mb-2 text-xs'>LAP TIME</h4>
-                                    <select className='text-gray-900' value={selectedLaps[0]?.lap_number} onChange={(e) => handleLapChange(0, e.target.value)}>
-                                        <option value="">Select Lap</option>
+                                    <h4 className='text-sm font-semibold text-gray-600'>LAP TIME</h4>
+                                    <select className='bg-transparent text-3xl font-bold italic text-left' value={selectedLaps[0]?.lap_number} onChange={(e) => handleLapChange(0, e.target.value)}>
+                                        <option className='bg-gray-500 text-base' value="">Select Lap</option>
                                         {laps[0]?.map((lap, lapIndex) => (
-                                            <option key={lapIndex} value={lap.lap_number}>
+                                            <option className='bg-gray-500 text-base' key={lapIndex} value={lap.lap_number}>
                                                 {formatLapTime(lap.lap_duration)}
                                             </option>
                                         ))}
                                     </select>
                                 </label>
                                 {gapDriver1 && (
-                                    <div className="gap-section">
-                                        <h4 className='mb-2 text-xs'>GAP</h4>
-                                        <p className={`text-2xl font-semibold ${gapDriver1.startsWith('-') ? 'text-green-600' : 'text-red-600'}`}>
+                                    <div>
+                                        <h4 className='text-sm mb-[5px] font-semibold text-gray-600'>GAP</h4>
+                                        <p className={`text-3xl font-bold italic ${gapDriver1.startsWith('-') ? 'text-green-600' : 'text-red-600'}`}>
                                             {gapDriver1}
                                         </p>
                                     </div>
@@ -246,61 +246,63 @@ const CarData = () => {
                             )}
                         </div>
                         {canRenderRaceTrack && (
-                            <RaceTrack lapNumber={lapNumber} driverNumber={driverNumber} />
+                            <div className='w-3/5 flex justify-between items-center'>
+                                <RaceTrack lapNumber={lapNumber} driverNumber={driverNumber} />
+                            </div> 
                         )}
-                        <div className='w-max driver-2 flex flex-col gap-4 pt-2'>
+                        <div className='w-2/5 driver-2 flex flex-col gap-2 pt-2'>
                             <div>
-                                <h1 className='mb-1'>DRIVER</h1>
+                                <h1 className='mb-1 text-sm font-semibold text-gray-600 text-right'>DRIVER</h1>
                                 <div className='border-l-[5px]' style={{ backgroundColor: selectedLaps[1] ? getOppositeColor(getTeamColor(1))+ '1A' : "rgba(255, 255, 255, 0.2)", borderColor: selectedLaps[1] ? getOppositeColor(getTeamColor(1)) : "white"}}>
-                                    <div className='flex justify-between p-2'>
-                                        <div>
+                                    <div className='flex justify-between items-center p-2'>
+                                        <div >
                                             {selectedDrivers[1] && (
-                                                <img className='w-16 h-16' src={drivers.find(driver => driver.driver_number === Number(selectedDrivers[1]))?.headshot_url} alt="Driver Headshot" />
+                                                <img className='object-contain w-16 h-16' src={require(`../assets/Constructors Logo/${drivers.find(driver => driver.driver_number === Number(selectedDrivers[1]))?.team_name}.png`)} alt="Driver Team Logo" />
                                             )}
                                         </div>
                                         <label>
-                                            <select className='bg-transparent' value={selectedDrivers[1]} onChange={(e) => handleDriverChange(1, e.target.value)}>
-                                            <option className='bg-gray-500' value="">Select Driver</option>
+                                            <select className='bg-transparent text-2xl font-bold' value={selectedDrivers[1]} onChange={(e) => handleDriverChange(1, e.target.value)}>
+                                            <option className='bg-gray-500 text-base' value="">Select Driver</option>
                                                 {drivers.map((driver) => (
-                                                    <option className='bg-gray-500' key={driver.driver_number} value={driver.driver_number}>
+                                                    <option className='bg-gray-500 text-base' key={driver.driver_number} value={driver.driver_number}>
                                                         {driver.full_name}
                                                     </option>
                                                 ))}
                                             </select>
                                         </label>
-                                        <div >
+                                        <div>
                                             {selectedDrivers[1] && (
-                                                <img className='object-contain w-16 h-16' src={require(`../assets/Constructors Logo/${drivers.find(driver => driver.driver_number === Number(selectedDrivers[1]))?.team_name}.png`)} alt="Driver Team Logo" />
+                                                <img className='w-16 h-16' src={drivers.find(driver => driver.driver_number === Number(selectedDrivers[1]))?.headshot_url} alt="Driver Headshot" />
                                             )}
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div className='flex justify-between mt-2'>
-                                {selectedLaps[1] && (
+                                {gapDriver2 && (
                                     <div>
-                                        <h4 className='text-xl font-bold mb-2'>LAP NUMBER</h4>
-                                        <p className='text-xl font-bold'>
-                                            {selectedLaps[1].lap_number}
+                                        <h4 className='text-sm mb-[5px] font-semibold text-gray-600 text-right'>GAP</h4>
+                                        <p className={`text-3xl font-bold italic ${gapDriver2.startsWith('-') ? 'text-green-600' : 'text-red-600'}`}>
+                                            {gapDriver2}
                                         </p>
                                     </div>
                                 )}
                                 <label>
-                                    <h4 className='text-xl font-bold mb-2'>LAP TIME</h4>
-                                    <select className='text-gray-900' value={selectedLaps[1]?.lap_number} onChange={(e) => handleLapChange(1, e.target.value)}>
-                                        <option value="">Select Lap</option>
+                                    <h4 className='text-sm font-semibold text-gray-600 text-right'>LAP TIME</h4>
+                                    <select className='bg-transparent text-3xl font-bold italic text-left' value={selectedLaps[1]?.lap_number} onChange={(e) => handleLapChange(1, e.target.value)}>
+                                        <option className='bg-gray-500 text-base' value="">Select Lap</option>
                                         {laps[1]?.map((lap, lapIndex) => (
-                                            <option key={lapIndex} value={lap.lap_number}>
+                                            <option className='bg-gray-500 text-base' key={lapIndex} value={lap.lap_number}>
                                                 {formatLapTime(lap.lap_duration)}
                                             </option>
                                         ))}
                                     </select>
                                 </label>
-                                {gapDriver2 && (
-                                    <div className="gap-section text-center">
-                                        <h4 className='text-xl font-bold mb-2'>GAP</h4>
-                                        <p className={`text-2xl font-semibold ${gapDriver2.startsWith('-') ? 'text-green-600' : 'text-red-600'}`}>
-                                            {gapDriver2}
+                                {selectedLaps[1] && (
+                                    <div className='flex flex-col justify-start'>
+                                        <h4 className='text-sm mb-[5px] font-semibold text-gray-600 text-right'>LAP NUMBER</h4>
+                                        <p className='text-3xl font-bold italic text-right'>
+                                            {selectedLaps[1].lap_number}
                                         </p>
                                     </div>
                                 )}
@@ -310,9 +312,9 @@ const CarData = () => {
                             )}
                         </div>
                     </div>
-                    <div className='relative w-full h-96'>
+                    <div className='relative w-full h-80 overflow-x-auto'>
                         {selectedLaps.map((lap, index) => lap && (
-                            <div key={index} className='absolute top-0 left-0 w-2/5'>
+                            <div key={index} className='absolute top-0 left-0 grid grid-cols-6 gap-[745px]'>
                                 {renderCharts(graphingData[index], index)}
                             </div>
                         ))}

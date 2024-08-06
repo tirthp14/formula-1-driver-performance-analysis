@@ -50,7 +50,7 @@ const QualifyingAnalysis = () => {
                 ))}
             </select>
 
-            <div className="px-16">
+            <div className="px-12">
                 {year && country && (
                     <div className="flex uppercase text-4xl font-extrabold tracking-wide py-4">
                         <h1>{year}</h1>

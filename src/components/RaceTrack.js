@@ -64,51 +64,55 @@ const RaceTrack = ({lapNumber, driverNumber}) => {
 
     const renderPlot = () => {
         if (trackData.length === 0) return null;
-
-        const xValues = trackData.map(d => d.x);
-        const yValues = trackData.map(d => d.y);
-        const zValues = trackData.map(d => d.z);
-
-        const trace1 = {
-            x: xValues,
-            y: yValues,
-            z: zValues,
+    
+        const segmentCount = 3;
+        const splitSize = Math.floor(trackData.length / segmentCount);
+        const segments = Array.from({ length: segmentCount }, (_, i) => {
+            const startIndex = i * splitSize;
+            const endIndex = i === segmentCount - 1 ? trackData.length : (i + 1) * splitSize;
+            return trackData.slice(startIndex, endIndex);
+        });
+    
+        const segmentColors = ['#D60F19', '#07A9D2', '#E4CC28'];
+    
+        const plotData = segments.map((segment, index) => ({
+            x: segment.map(d => d.x),
+            y: segment.map(d => d.y),
+            z: segment.map(d => d.z),
             mode: 'lines',
-            line: { width: 10, color: '#FFF' },
+            line: { width: 10, color: segmentColors[index] },
             type: 'scatter3d',
             hoverinfo: 'none',
             showlegend: false
-        };
-
+        }));
+    
         const traceMarkers = {
-            x: [xValues[0]],
-            y: [yValues[0]],
-            z: [zValues[0]],
+            x: [trackData[0].x],
+            y: [trackData[0].y],
+            z: [trackData[0].z],
             mode: 'markers',
-            marker: { size: 8, color: 'green', opacity: 0.8 },
+            marker: { size: 8, color: '#818589' }, 
             type: 'scatter3d',
             hoverinfo: 'none',
             showlegend: false,
         };
-
-        const plotData = [trace1, traceMarkers];
-
+    
+        plotData.push(traceMarkers);
+    
         const layout = {
             scene: {
                 xaxis: { visible: false },
                 yaxis: { visible: false },
-                zaxis: { visible: false, range: [Math.min(...zValues) - 1, Math.max(...zValues) + 1] },
+                zaxis: { visible: false, range: [Math.min(...trackData.map(d => d.z)) - 1, Math.max(...trackData.map(d => d.z)) + 1] },
                 aspectmode: 'manual',
                 aspectratio: { x: 2, y: 2, z: 0.2 },
                 annotations: [
                     {
-                        x: xValues[0],
-                        y: yValues[0],
-                        z: zValues[0],
+                        x: trackData[0].x,
+                        y: trackData[0].y,
+                        z: trackData[0].z,
                         text: 'Start',
-                        color: '#FFF',
-                        showarrow: true,
-                        arrowhead: 2,
+                        font: { color: '#FFF' },
                         ax: 0,
                         ay: -45,
                     }
@@ -119,15 +123,15 @@ const RaceTrack = ({lapNumber, driverNumber}) => {
             plot_bgcolor: 'transparent',
             autosize: true,
         };
-
+    
         const config = {
             displayModeBar: false
         };
-
+    
         return <Plot data={plotData} layout={layout} config={config} className='w-full h-full'/>;
     };
 
-    return <div className="min-w-fit w-full max-w-full h-72">{renderPlot()}</div>
+    return <div className="w-full h-[270px] flex justify-center items-center border-[3px] border-t-0 border-lineBackground">{renderPlot()}</div>
 };
 
 export default RaceTrack;
