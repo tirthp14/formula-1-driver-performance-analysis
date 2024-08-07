@@ -7,7 +7,7 @@ module.exports = {
     extend: {
       colors:{
         mainBackground: "#14141e",
-        lineBackground: "#191923",
+        lineBackground: "#191923"
       },
       fontFamily: {
         main: ['Titillium Web', 'sans-serif']

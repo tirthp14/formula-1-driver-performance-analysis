@@ -37,7 +37,7 @@ const StartingGrid = () => {
     return (
         <div>
             {startingGrid ? (
-                <ol className="text-white">
+                <ol className="text-white text-lg">
                     {startingGrid.map((driver, index) => (
                         <li key={index}>
                             Driver Number: {driver.driver_number}, 
