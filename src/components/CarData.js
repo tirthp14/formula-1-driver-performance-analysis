@@ -191,7 +191,13 @@ const CarData = () => {
                                     <div className='flex justify-between items-center p-2'>
                                         <div>
                                             {selectedDrivers[0] && (
-                                                <img className='w-16 h-16' src={drivers.find(driver => driver.driver_number === Number(selectedDrivers[0]))?.headshot_url} alt="Driver Headshot" />
+                                                drivers.find(driver => driver.driver_number === Number(selectedDrivers[0]))?.headshot_url !== null ? (
+                                                <img
+                                                    className='w-16 h-16'
+                                                    src={drivers.find(driver => driver.driver_number === Number(selectedDrivers[0]))?.headshot_url}
+                                                    alt="Driver Headshot"
+                                                />
+                                                ) : null
                                             )}
                                         </div>
                                         <label>
@@ -204,9 +210,15 @@ const CarData = () => {
                                                 ))}
                                             </select>
                                         </label>
-                                        <div >
+                                        <div>
                                             {selectedDrivers[0] && (
-                                                <img className='object-contain w-16 h-16' src={require(`../assets/Constructors Logo/${drivers.find(driver => driver.driver_number === Number(selectedDrivers[0]))?.team_name}.png`)} alt="Driver Team Logo" />
+                                                drivers.find(driver => driver.driver_number === Number(selectedDrivers[0]))?.team_name ? (
+                                                <img
+                                                    className='object-contain w-16 h-16'
+                                                    src={require(`../assets/Constructors Logo/${drivers.find(driver => driver.driver_number === Number(selectedDrivers[0]))?.team_name}.png`)}
+                                                    alt="Driver Team Logo"
+                                                />
+                                                ) : null
                                             )}
                                         </div>
                                     </div>
@@ -255,9 +267,15 @@ const CarData = () => {
                                 <h1 className='mb-1 text-sm font-semibold text-gray-600 text-right'>DRIVER</h1>
                                 <div className='border-l-[5px]' style={{ backgroundColor: selectedLaps[1] ? getOppositeColor(getTeamColor(1))+ '1A' : "rgba(255, 255, 255, 0.2)", borderColor: selectedLaps[1] ? getOppositeColor(getTeamColor(1)) : "white"}}>
                                     <div className='flex justify-between items-center p-2'>
-                                        <div >
+                                        <div>
                                             {selectedDrivers[1] && (
-                                                <img className='object-contain w-16 h-16' src={require(`../assets/Constructors Logo/${drivers.find(driver => driver.driver_number === Number(selectedDrivers[1]))?.team_name}.png`)} alt="Driver Team Logo" />
+                                                drivers.find(driver => driver.driver_number === Number(selectedDrivers[1]))?.team_name ? (
+                                                <img
+                                                    className='object-contain w-16 h-16'
+                                                    src={require(`../assets/Constructors Logo/${drivers.find(driver => driver.driver_number === Number(selectedDrivers[1]))?.team_name}.png`)}
+                                                    alt="Driver Team Logo"
+                                                />
+                                                ) : null
                                             )}
                                         </div>
                                         <label>
@@ -272,7 +290,13 @@ const CarData = () => {
                                         </label>
                                         <div>
                                             {selectedDrivers[1] && (
-                                                <img className='w-16 h-16' src={drivers.find(driver => driver.driver_number === Number(selectedDrivers[1]))?.headshot_url} alt="Driver Headshot" />
+                                                drivers.find(driver => driver.driver_number === Number(selectedDrivers[1]))?.headshot_url !== null ? (
+                                                <img
+                                                    className='w-16 h-16'
+                                                    src={drivers.find(driver => driver.driver_number === Number(selectedDrivers[1]))?.headshot_url}
+                                                    alt="Driver Headshot"
+                                                />
+                                                ) : null
                                             )}
                                         </div>
                                     </div>
