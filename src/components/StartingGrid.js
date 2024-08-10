@@ -42,7 +42,8 @@ const StartingGrid = () => {
                         <li key={index}>
                             Driver Number: {driver.driver_number}, 
                             Name: {driver.driverDetails ? driver.driverDetails.full_name : 'Unknown'}, 
-                            Position: {driver.position}
+                            Position: {driver.position},
+                            Team Name: {driver.team_name}
                         </li>
                     ))}
                 </ol>
