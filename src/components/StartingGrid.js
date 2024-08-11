@@ -37,16 +37,20 @@ const StartingGrid = () => {
     return (
         <div>
             {startingGrid ? (
-                <ol className="text-white text-lg">
+                <div className="grid grid-cols-2 gap-3 text-center w-fit">
                     {startingGrid.map((driver, index) => (
-                        <li key={index}>
-                            Driver Number: {driver.driver_number}, 
-                            Name: {driver.driverDetails ? driver.driverDetails.full_name : 'Unknown'}, 
-                            Position: {driver.position},
-                            Team Name: {driver.team_name}
-                        </li>
+                        <div key={index} className={`relative ${index % 2 === 1 ? 'mt-5' : ''} text-3xl w-fit h-fit p-3 pt-1`}>
+                            {driver.driverDetails.name_acronym && driver.driverDetails.team_name ? (
+                                <div>
+                                    <div className="absolute inset-0 border-2 border-b-0 border-gray-700" style={{ height: '25%' }}/>
+                                    <img className="h-24 w-fit" src={require(`../assets/Constructors Cars/${driver.driverDetails.name_acronym} ${driver.driverDetails.team_name}.png`)} alt={`${driver.driverDetails.name_acronym} ${driver.driverDetails.team_name}`}/>
+                                </div>
+                            ) : (
+                                <div></div>
+                            )}
+                        </div>
                     ))}
-                </ol>
+                </div>
             ) : (
                 <p>Loading...</p>
             )}

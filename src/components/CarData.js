@@ -1,10 +1,11 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
+
 import RaceTrack from './RaceTrack';
-import { formatLapTime } from '../utils/FormatTime';
 import SegmentsDivs from './SectorTimes';
+import { formatLapTime } from '../utils/FormatTime';
 import { getOppositeColor } from '../utils/Color';
 import { SessionContext } from "../utils/SessionContext";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
 
 const CarData = () => {
     const { qualifyingSessionKey } = useContext(SessionContext);
@@ -192,11 +193,7 @@ const CarData = () => {
                                         <div>
                                             {selectedDrivers[0] && (
                                                 drivers.find(driver => driver.driver_number === Number(selectedDrivers[0]))?.headshot_url !== null ? (
-                                                <img
-                                                    className='w-16 h-16'
-                                                    src={drivers.find(driver => driver.driver_number === Number(selectedDrivers[0]))?.headshot_url}
-                                                    alt="Driver Headshot"
-                                                />
+                                                <img className='w-16 h-16' src={drivers.find(driver => driver.driver_number === Number(selectedDrivers[0]))?.headshot_url} alt="Driver Headshot" />
                                                 ) : null
                                             )}
                                         </div>
@@ -213,11 +210,7 @@ const CarData = () => {
                                         <div>
                                             {selectedDrivers[0] && (
                                                 drivers.find(driver => driver.driver_number === Number(selectedDrivers[0]))?.team_name ? (
-                                                <img
-                                                    className='object-contain w-16 h-16'
-                                                    src={require(`../assets/Constructors Logo/${drivers.find(driver => driver.driver_number === Number(selectedDrivers[0]))?.team_name}.png`)}
-                                                    alt="Driver Team Logo"
-                                                />
+                                                <img className='object-contain w-16 h-16' src={require(`../assets/Constructors Logo/${drivers.find(driver => driver.driver_number === Number(selectedDrivers[0]))?.team_name}.png`)} alt="Driver Team Logo" />
                                                 ) : null
                                             )}
                                         </div>
@@ -270,11 +263,7 @@ const CarData = () => {
                                         <div>
                                             {selectedDrivers[1] && (
                                                 drivers.find(driver => driver.driver_number === Number(selectedDrivers[1]))?.team_name ? (
-                                                <img
-                                                    className='object-contain w-16 h-16'
-                                                    src={require(`../assets/Constructors Logo/${drivers.find(driver => driver.driver_number === Number(selectedDrivers[1]))?.team_name}.png`)}
-                                                    alt="Driver Team Logo"
-                                                />
+                                                <img className='object-contain w-16 h-16' src={require(`../assets/Constructors Logo/${drivers.find(driver => driver.driver_number === Number(selectedDrivers[1]))?.team_name}.png`)} alt="Driver Team Logo" />
                                                 ) : null
                                             )}
                                         </div>
@@ -291,11 +280,7 @@ const CarData = () => {
                                         <div>
                                             {selectedDrivers[1] && (
                                                 drivers.find(driver => driver.driver_number === Number(selectedDrivers[1]))?.headshot_url !== null ? (
-                                                <img
-                                                    className='w-16 h-16'
-                                                    src={drivers.find(driver => driver.driver_number === Number(selectedDrivers[1]))?.headshot_url}
-                                                    alt="Driver Headshot"
-                                                />
+                                                <img className='w-16 h-16' src={drivers.find(driver => driver.driver_number === Number(selectedDrivers[1]))?.headshot_url} alt="Driver Headshot" />
                                                 ) : null
                                             )}
                                         </div>
