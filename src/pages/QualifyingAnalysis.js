@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { SessionContext } from "../utils/SessionContext"
+import { SessionContext } from "../utils/SessionContext";
 import { fetchSessionKey } from "../utils/FetchSessionKey";
 import StartingGrid from "../components/StartingGrid";
 import CarData from "../components/CarData";
@@ -16,7 +16,7 @@ const QualifyingAnalysis = () => {
                 const response = await fetch(`https://api.openf1.org/v1/meetings?year=${year}`);
                 const data = await response.json();
                 
-                setLocations(data)
+                setLocations(data);
             }
         };
 
@@ -34,38 +34,47 @@ const QualifyingAnalysis = () => {
         }
 
         fetchQualifyingSessionKey();
-    }, [country, year, setQualifyingSessionKey])
+    }, [country, year, setQualifyingSessionKey]);
 
     return (
-        <div className="font-main text-neutral-100">
-            <select className="text-black" onChange={(e) => setYear(e.target.value)} value={year}>
-                <option value="">Select Year</option>
-                <option value="2024">2024</option>
-                <option value="2023">2023</option>
-            </select>
-            <select className="text-black" onChange={(e) => setCountry(e.target.value)} value={country}>
-                <option value="">Select Grand Prix</option>
-                {locations.map(location => (
-                    <option key={location.meeting_key} value={location.country_name}>{location.meeting_name}</option>
-                ))}
-            </select>
+        <div className="font-main text-neutral-100 min-h-screen bg-gradient-to-b from-gray-900 to-gray-700 py-6">
+            <div className="container mx-auto px-10">
+                <div className="mb-6 flex justify-center space-x-4">
+                    <select 
+                        className="bg-gray-800 text-white border border-gray-600 rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-teal-400"
+                        onChange={(e) => setYear(e.target.value)} 
+                        value={year}
+                    >
+                        <option value="">Select Year</option>
+                        <option value="2024">2024</option>
+                        <option value="2023">2023</option>
+                    </select>
+                    <select 
+                        className="bg-gray-800 text-white border border-gray-600 rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-teal-400"
+                        onChange={(e) => setCountry(e.target.value)} 
+                        value={country}
+                    >
+                        <option value="">Select Grand Prix</option>
+                        {locations.map(location => (
+                            <option key={location.meeting_key} value={location.country_name}>
+                                {location.meeting_name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
 
-            <div className="px-12">
                 {year && country && (
-                    <div className="flex uppercase text-4xl font-extrabold tracking-wide py-4">
-                        <h1>{year}</h1>
-                        <h1 className="pl-2">{country}</h1>
-                        <p className="px-2">-</p>
-                        <h1>Qualifying Analysis</h1>
+                    <div className="py-6 bg-gray-800 text-white rounded-3xl shadow-md">
+                        <h1 className="text-center text-4xl font-extrabold tracking-wide">{year} {country} - Qualifying Analysis</h1>
+                        <div className="space-y-8">
+                            <CarData />
+                            <StartingGrid />
+                        </div>
                     </div>
                 )}
-
-                <CarData />
-                <StartingGrid />
             </div>
-
         </div>
-    )
+    );
 }
 
 export default QualifyingAnalysis;
