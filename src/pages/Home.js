@@ -3,7 +3,7 @@ import { FaArrowRight, FaPlay } from "react-icons/fa";
 
 const Home = () => {
   return (
-    <div className="bg-gray-900 text-white min-h-screen flex flex-col justify-between">
+    <div className="bg-gradient-to-b from-gray-900 to-gray-700 text-white min-h-screen flex flex-col justify-between">
       {/* Hero Section */}
       <section className="h-screen flex flex-col justify-center items-center text-center px-6 py-12 md:px-12">
         <motion.h1

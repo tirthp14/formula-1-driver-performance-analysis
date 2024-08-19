@@ -17,7 +17,7 @@ const LapData = () => {
                 const data = await response.json();
 
                 const driverNumbers = data.map(driver => driver.driver_number);
-                setSelectedDrivers(driverNumbers)
+                setSelectedDrivers(driverNumbers);
                 
                 const acronyms = data.reduce((acc, driver) => {
                     acc[driver.driver_number] = driver.name_acronym;
@@ -54,13 +54,19 @@ const LapData = () => {
 
                     setLapData(prevData => ({
                         ...prevData,
-                        [driver]: formattedData,
+                        [driver]: formattedData
                     }));
 
-                    initialVisibility[driverAcronyms[driver] || `Driver ${driver}`] = true;
-                    newColors[driverAcronyms[driver] || `Driver ${driver}`] = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+                    // Set default visibility and color for new drivers
+                    if (!initialVisibility[driver]) {
+                        initialVisibility[driver] = true;
+                    }
+                    if (!newColors[driver]) {
+                        newColors[driver] = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+                    }
+
                 } catch (error) {
-                    console.log("Error fetching Lap Data: ", error);
+                    console.log(`Error fetching lap data for driver ${driver}:`, error);
                 }
             }
 
@@ -68,101 +74,71 @@ const LapData = () => {
             setDriverColors(newColors);
         };
 
-        if (raceSessionKey && Object.keys(driverAcronyms).length > 0) {  
+        if (selectedDrivers.length > 0) {
             fetchLapData();
         }
-    }, [raceSessionKey, driverAcronyms, selectedDrivers]);
-
-    const prepareChartData = () => {
-        const combinedLapData = Object.values(lapData).flat();
-        const lapNumbers = [...new Set(combinedLapData.map(lap => lap.lapNumber))].sort((a, b) => a - b);
-
-        const chartData = lapNumbers.map(lapNumber => {
-            const lapDataForAllDrivers = { lapNumber: lapNumber };
-            selectedDrivers.forEach(driver => {
-                const lapForDriver = combinedLapData.find(lap => lap.lapNumber === lapNumber && lap.driverNumber === driver);
-                if (lapForDriver) {
-                    lapDataForAllDrivers[driverAcronyms[driver] || `Driver ${driver}`] = lapForDriver.lapDuration;
-                }
-            });
-            return lapDataForAllDrivers;
-        });
-
-        return chartData;
-    };
-
-    const formatYAxisTick = (tick) => {
-        const minutes = Math.floor(tick);
-        const seconds = ((tick - minutes) * 60).toFixed(3);
-        return `${minutes}:${seconds.padStart(6, '0')}`;
-    };
+    }, [selectedDrivers, raceSessionKey]);
 
     const handleDriverVisibilityChange = (driver) => {
-        setDriverVisibility(prevState => ({
-            ...prevState,
-            [driver]: !prevState[driver]
+        setDriverVisibility(prevVisibility => ({
+            ...prevVisibility,
+            [driver]: !prevVisibility[driver]
         }));
     };
 
-    const chartData = prepareChartData();
-    const minLapDuration = Math.min(...chartData.flatMap(d => selectedDrivers.map(driver => parseFloat(d[driverAcronyms[driver] || `Driver ${driver}`]) || Infinity)));
-    const maxLapDuration = Math.max(...chartData.flatMap(d => selectedDrivers.map(driver => parseFloat(d[driverAcronyms[driver] || `Driver ${driver}`]) || -Infinity)));
+    const data = selectedDrivers.reduce((acc, driver) => {
+        if (lapData[driver]) {
+            lapData[driver].forEach(lap => {
+                if (!acc[lap.lapNumber]) {
+                    acc[lap.lapNumber] = { lapNumber: lap.lapNumber };
+                }
+                acc[lap.lapNumber][driver] = lap.lapDuration;
+            });
+        }
+        return acc;
+    }, {});
+
+    const formattedData = Object.values(data);
 
     return (
-        <>
-            <div>
-                {chartData.length > 0 ? (
-                    <ResponsiveContainer width="100%" height={400} style={{backgroundColor: "white"}}>
-                        <LineChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="lapNumber" />
-                            <YAxis
-                                tickFormatter={formatYAxisTick}
-                                label={{ value: 'Lap Duration (MM:SS.mmm)', angle: -90, position: 'insideLeft' }}
-                                domain={[minLapDuration - 0.05, maxLapDuration + 0.05]}
-                            />
-                            <Tooltip
-                                formatter={(value) => {
-                                    const decimalMinutes = parseFloat(value);
-                                    const minutes = Math.floor(decimalMinutes);
-                                    const totalSeconds = (decimalMinutes - minutes) * 60;
-                                    const seconds = Math.floor(totalSeconds);
-                                    const milliseconds = Math.round((totalSeconds - seconds) * 1000);
-                                    return `${minutes}:${seconds.toString().padStart(2, '0')}.${milliseconds.toString().padStart(3, '0')}`;
-                                }}
-                            />
-                            <Legend />
-                            {selectedDrivers.map(driver => (
-                                driverVisibility[driverAcronyms[driver] || `Driver ${driver}`] && (
-                                    <Line
-                                        key={driver}
-                                        type="monotone"
-                                        dataKey={driverAcronyms[driver] || `Driver ${driver}`}
-                                        stroke={driverColors[driverAcronyms[driver] || `Driver ${driver}`]}
-                                        activeDot={{ r: 8 }}
-                                        name={driverAcronyms[driver] || `Driver ${driver}`}
-                                    />
-                                )
-                            ))}
-                        </LineChart>
-                    </ResponsiveContainer>
-                ) : (
-                    <p>Loading chart data...</p>
-                )}
-                <div className="flex flex-wrap justify-center gap-4 mt-4">
-                    {selectedDrivers.map((driver, index) => (
-                        <button
-                            key={index}
-                            className={`py-1 px-4 text-white font-semibold rounded`}
-                            onClick={() => handleDriverVisibilityChange(driverAcronyms[driver] || `Driver ${driver}`)}
-                            style={{ backgroundColor: driverVisibility[driverAcronyms[driver] || `Driver ${driver}`] ? driverColors[driverAcronyms[driver] || `Driver ${driver}`] : '#333333' }}
-                        >
-                            {driverAcronyms[driver] || `Driver ${driver}`}
-                        </button>
-                    ))}
-                </div>
+        <div className="p-6 bg-gray-800">
+            <div className="mb-6">
+                <p className="text-lg font-semibold mb-2">Lap Times:</p>
+                <ResponsiveContainer width="100%" height={400}>
+                    <LineChart data={formattedData}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="lapNumber" />
+                        <YAxis domain={['auto', 'auto']} />
+                        <Tooltip />
+                        <Legend />
+                        {selectedDrivers.map(driver => (
+                            driverVisibility[driver] && (
+                                <Line
+                                    key={driver}
+                                    type="monotone"
+                                    dataKey={driver}
+                                    stroke={driverColors[driver]}
+                                    activeDot={{ r: 8 }}
+                                    name={`Driver ${driverAcronyms[driver] || driver}`}
+                                />
+                            )
+                        ))}
+                    </LineChart>
+                </ResponsiveContainer>
             </div>
-        </>
+            <div className="flex flex-wrap justify-center gap-4 mt-4">
+                {selectedDrivers.map((driver, index) => (
+                    <button
+                        key={index}
+                        className="py-1 px-4 text-white font-semibold rounded"
+                        onClick={() => handleDriverVisibilityChange(driverAcronyms[driver] || `Driver ${driver}`)}
+                        style={{ backgroundColor: driverVisibility[driverAcronyms[driver] || `Driver ${driver}`] ? driverColors[driverAcronyms[driver] || `Driver ${driver}`] : '#333333' }}
+                    >
+                        {driverAcronyms[driver] || `Driver ${driver}`}
+                    </button>
+                ))}
+            </div>
+        </div>
     );
 };
 

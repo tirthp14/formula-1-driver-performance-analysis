@@ -64,45 +64,51 @@ const RaceResults = ({ setRaceResultsOrder }) => {
                 console.error("Error fetching data:", error);
             }
         };
-
+        
         fetchRaceData();
     }, [raceSessionKey, setRaceResultsOrder]);
 
     return (
-        <div>
+        <div className="p-6 w-fit">
             {startingGrid.length > 0 && (
-                <div>
-                    <p>Starting Grid:</p>
-                    <ol>
-                        {startingGrid.map((driver, index) => (
-                            <li key={index}>
-                                Driver Number: {driver.driver_number}, 
-                                Name: {driver.driverDetails?.full_name || 'Loading...'}, 
-                                Position: {driver.position}
-                            </li>
-                        ))}
-                    </ol>
+                <div className="grid grid-cols-2 gap-3 text-center w-fit">
+                    {startingGrid.map((driver, index) => (
+                        <div key={index} className={`relative ${index % 2 === 1 ? 'mt-5' : ''} text-3xl w-fit h-fit p-3 pt-1`}>
+                            {driver.driverDetails.name_acronym && driver.driverDetails.team_name ? (
+                                <div>
+                                    <div className="absolute inset-0 border-2 border-b-0 border-gray-700" style={{ height: '25%' }}/>
+                                    <img className="h-24 w-fit" src={require(`../assets/Constructors Cars/${driver.driverDetails.name_acronym} ${driver.driverDetails.team_name}.png`)} alt={`${driver.driverDetails.name_acronym} ${driver.driverDetails.team_name}`}/>
+                                </div>
+                            ) : (
+                                <div></div>
+                            )}
+                        </div>
+                    ))}
                 </div>
             )}
 
+            {/* Race Results Section */}
             {raceResults.length > 0 ? (
                 <div>
-                    <p>Race Results:</p>
-                    <ol>
+                    <h2 className="text-2xl font-semibold mb-4">Race Results</h2>
+                    <ol className="list-decimal pl-6 space-y-2">
                         {raceResults.map((driver, index) => (
-                            <li key={index}>
-                                Driver Number: {driver.driver_number}, 
-                                Name: {driver.driverDetails?.full_name || 'Loading...'}, 
-                                Position: {driver.position}
+                            <li key={index} className="bg-gray-800 p-4 rounded-lg shadow-md">
+                                <p><strong>Driver Number:</strong> {driver.driver_number}</p>
+                                <p><strong>Name:</strong> {driver.driverDetails?.full_name || 'Loading...'}</p>
+                                <p><strong>Position:</strong> {driver.position}</p>
                                 {driver.intervals ? (
-                                    `, Interval: ${driver.intervals.interval} seconds, Gap to Leader: ${driver.intervals.gapToLeader} seconds`
-                                ) : ""}
+                                    <>
+                                        <p><strong>Interval:</strong> {driver.intervals.interval} seconds</p>
+                                        <p><strong>Gap to Leader:</strong> {driver.intervals.gapToLeader} seconds</p>
+                                    </>
+                                ) : <p><strong>Interval:</strong> N/A</p>}
                             </li>
                         ))}
                     </ol>
                 </div>
             ) : (
-                <p>Loading...</p>
+                <p className="text-gray-500">No Race Results Available</p>
             )}
         </div>
     );

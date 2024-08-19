@@ -2,10 +2,10 @@ import { useContext, useEffect, useState } from "react";
 import { SessionContext } from "../utils/SessionContext";
 import { Bar, BarChart, XAxis, YAxis, CartesianGrid, Tooltip, LabelList, ResponsiveContainer } from 'recharts';
 
-const TyreStrategy = ({ driverCode, driverColor, raceResultsOrder }) => {
+const TyreStrategy = ({ driverCode, raceResultsOrder }) => {
     const { raceSessionKey } = useContext(SessionContext);
-    const[drivers, setDrivers] = useState([]);
-    const[maxLap, setMaxLap] = useState(0);
+    const [drivers, setDrivers] = useState([]);
+    const [maxLap, setMaxLap] = useState(0);
 
     useEffect(() => {
         const fetchStintData = async () => {
@@ -15,7 +15,7 @@ const TyreStrategy = ({ driverCode, driverColor, raceResultsOrder }) => {
 
                 const response = await fetch(`https://api.openf1.org/v1/stints?session_key=${raceSessionKey}`);
                 const data = await response.json();
-                
+
                 const groupedDrivers = data.reduce((acc, stint) => {
                     const { driver_number } = stint;
                     if (!acc[driver_number]) {
@@ -30,29 +30,29 @@ const TyreStrategy = ({ driverCode, driverColor, raceResultsOrder }) => {
                 }, {});
 
                 const driversArray = Object.values(groupedDrivers);
-                setDrivers(driversArray)
-                
-                const maxLap = Math.max(...data.map(stint => stint.lap_end));
-                setMaxLap(maxLap);
+                setDrivers(driversArray);
 
-                if (drivers.length > 0 && raceResultsOrder.length > 0) {
+                const maxLapValue = Math.max(...data.map(stint => stint.lap_end));
+                setMaxLap(maxLapValue);
+                
+                if (raceResultsOrder.length > 0) {
                     const sortedDrivers = raceResultsOrder.map(driverNumber =>
-                        drivers.find(driver => driver.driver_number === driverNumber)
-                    );
+                        driversArray.find(driver => driver.driver_number === driverNumber)
+                    ).filter(driver => driver); // Ensure no undefined drivers
                     setDrivers(sortedDrivers);
                 }
             } catch (error) {
-                console.log("Error fetching Stint data: ", error);
+                console.error("Error fetching stint data:", error);
             }
         };
 
         if (raceSessionKey) {
             fetchStintData();
         }
-    }, [raceSessionKey, raceResultsOrder, drivers]);
+    }, [raceSessionKey, raceResultsOrder]);
 
     if (!drivers.length) {
-        return <p>Loading Stint Data...</p>;
+        return "";
     }
 
     const transformedData = drivers.map(driver => {
@@ -78,42 +78,41 @@ const TyreStrategy = ({ driverCode, driverColor, raceResultsOrder }) => {
 
     const tyreKeys = [
         ...new Set(transformedData.flatMap(Object.keys).filter(key => key !== 'acronym'))
-    ]
+    ];
 
     const capitalizeFirstLetter = (string) => {
-        return string.charAt(0).toUpperCase() + string.slice(1)
+        return string.charAt(0).toUpperCase() + string.slice(1);
     };
 
     const CustomTooltip = ({ active, payload, label }) => {
         if (active && payload && payload.length) {
             return (
-                <div className="custom-tooltip" style={{backgroundColor: 'black'}}>
-                <p className="font-display">{label}</p>
-                <hr className="mb-4 mt-4"/>
-                {payload.map((entry, index) => (
-                    <p key={index} style={{ color: tyreCompounds[entry.name.replace(/[0-9]/g, '')] }}>
-                    {capitalizeFirstLetter(entry.name.replace(/[0-9]/g, ''))}: {entry.value}
-                    </p>
-                ))}
+                <div className="custom-tooltip bg-black text-white p-2 rounded">
+                    <p className="font-bold">{label}</p>
+                    <hr className="my-2" />
+                    {payload.map((entry, index) => (
+                        <p key={index} style={{ color: tyreCompounds[entry.name.replace(/[0-9]/g, '')] }}>
+                            {capitalizeFirstLetter(entry.name.replace(/[0-9]/g, ''))}: {entry.value}
+                        </p>
+                    ))}
                 </div>
             );
         }
         
         return null;
-      };
+    };
 
     return (
-        <>
-            <h3 className="heading-4 mb-16 mt-32 text-neutral-400 ml-24">Tyre Strategy</h3>
-            <div className="h-fit mb-16 relative rounded-xlarge bg-slate-900">
-                <ResponsiveContainer width="60%" height={driverCode ? 100 : 700}>
-                    <BarChart 
+        <div>
+            <h3 className="text-2xl font-bold mb-8 text-neutral-400">Tyre Strategy</h3>
+            <div className="relative p-4">
+                <ResponsiveContainer width="100%" height={driverCode ? 300 : 700}>
+                    <BarChart
                         data={transformedData}
-                        width="100%"
                         layout="vertical"
                         margin={{ right: 30 }}
                     >
-                        <CartesianGrid strokeDasharray="3 3" width="100%"/>
+                        <CartesianGrid strokeDasharray="3 3" />
                         <XAxis 
                             type="number"
                             domain={[0, maxLap]}
@@ -125,18 +124,14 @@ const TyreStrategy = ({ driverCode, driverColor, raceResultsOrder }) => {
                             interval={0}
                         />
                         <Tooltip content={<CustomTooltip />} cursor={{ fill: 'grey' }} />
-
-                        {tyreKeys
-                        .sort((a, b) => {
-                            const aNum = parseInt(a.match(/\d+$/)[0], 10);
-                            const bNum = parseInt(b.match(/\d+$/)[0], 10);
-                            return aNum - bNum;
-                        })
-                        .map((key) => (
+                        {tyreKeys.sort((a, b) => {
+                            const aNum = parseInt(a.match(/\d+$/)?.[0], 10);
+                            const bNum = parseInt(b.match(/\d+$/)?.[0], 10);
+                            return (aNum || 0) - (bNum || 0);
+                        }).map((key) => (
                             <Bar
-                                className={`tyre-compound tyre-compound--${key.replace(/[0-9]/g, '')}`}
-                                dataKey={key}
                                 key={key}
+                                dataKey={key}
                                 stackId="a"
                                 stroke={tyreCompounds[key.replace(/[0-9]/g, '')]}
                                 fill={tyreCompounds[key.replace(/[0-9]/g, '')]}
@@ -151,7 +146,7 @@ const TyreStrategy = ({ driverCode, driverColor, raceResultsOrder }) => {
                     </BarChart>
                 </ResponsiveContainer>
             </div>
-        </>
+        </div>
     );
 };
 
