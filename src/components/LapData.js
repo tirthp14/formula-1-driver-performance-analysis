@@ -101,43 +101,47 @@ const LapData = () => {
     const formattedData = Object.values(data);
 
     return (
-        <div className="p-6 bg-gray-800">
-            <div className="mb-6">
-                <p className="text-lg font-semibold mb-2">Lap Times:</p>
-                <ResponsiveContainer width="100%" height={400}>
-                    <LineChart data={formattedData}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="lapNumber" />
-                        <YAxis domain={['auto', 'auto']} />
-                        <Tooltip />
-                        <Legend />
-                        {selectedDrivers.map(driver => (
-                            driverVisibility[driver] && (
-                                <Line
-                                    key={driver}
-                                    type="monotone"
-                                    dataKey={driver}
-                                    stroke={driverColors[driver]}
-                                    activeDot={{ r: 8 }}
-                                    name={`Driver ${driverAcronyms[driver] || driver}`}
-                                />
-                            )
+        <div className="p-6">
+            {formattedData.length > 0 && (
+                <>
+                    <div className="mb-6">
+                        <p className="text-lg font-semibold mb-2">Lap Times:</p>
+                        <ResponsiveContainer width="100%" height={400}>
+                            <LineChart data={formattedData}>
+                                <CartesianGrid strokeDasharray="3 3" />
+                                <XAxis dataKey="lapNumber" />
+                                <YAxis domain={['auto', 'auto']} />
+                                <Tooltip />
+                                <Legend />
+                                {selectedDrivers.map(driver => (
+                                    driverVisibility[driver] && (
+                                        <Line
+                                            key={driver}
+                                            type="monotone"
+                                            dataKey={driver}
+                                            stroke={driverColors[driver]}
+                                            activeDot={{ r: 8 }}
+                                            name={`Driver ${driverAcronyms[driver] || driver}`}
+                                        />
+                                    )
+                                ))}
+                            </LineChart>
+                        </ResponsiveContainer>
+                    </div>
+                    <div className="flex flex-wrap justify-center gap-4 mt-4">
+                        {selectedDrivers.map((driver, index) => (
+                            <button
+                                key={index}
+                                className="py-1 px-4 text-white font-semibold rounded"
+                                onClick={() => handleDriverVisibilityChange(driverAcronyms[driver] || `Driver ${driver}`)}
+                                style={{ backgroundColor: driverVisibility[driverAcronyms[driver] || `Driver ${driver}`] ? driverColors[driverAcronyms[driver] || `Driver ${driver}`] : '#333333' }}
+                            >
+                                {driverAcronyms[driver] || `Driver ${driver}`}
+                            </button>
                         ))}
-                    </LineChart>
-                </ResponsiveContainer>
-            </div>
-            <div className="flex flex-wrap justify-center gap-4 mt-4">
-                {selectedDrivers.map((driver, index) => (
-                    <button
-                        key={index}
-                        className="py-1 px-4 text-white font-semibold rounded"
-                        onClick={() => handleDriverVisibilityChange(driverAcronyms[driver] || `Driver ${driver}`)}
-                        style={{ backgroundColor: driverVisibility[driverAcronyms[driver] || `Driver ${driver}`] ? driverColors[driverAcronyms[driver] || `Driver ${driver}`] : '#333333' }}
-                    >
-                        {driverAcronyms[driver] || `Driver ${driver}`}
-                    </button>
-                ))}
-            </div>
+                    </div>
+                </>
+            )}
         </div>
     );
 };

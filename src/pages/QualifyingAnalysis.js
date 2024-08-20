@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { SessionContext } from "../utils/SessionContext";
 import { fetchSessionKey } from "../utils/FetchSessionKey";
-import StartingGrid from "../components/StartingGrid";
 import CarData from "../components/CarData";
 
 const QualifyingAnalysis = () => {
@@ -63,12 +62,18 @@ const QualifyingAnalysis = () => {
                     </select>
                 </div>
 
-                {year && country && (
+                {year && country ? (
                     <div className="py-6 bg-gray-800 text-white rounded-3xl shadow-md">
                         <h1 className="text-center text-4xl font-extrabold tracking-wide">{year} {country} - Qualifying Analysis</h1>
                         <div className="space-y-8">
                             <CarData />
-                            <StartingGrid />
+                        </div>
+                    </div>
+                ) : (
+                    <div className="bg-gray-800 text-white rounded-3xl shadow-md">
+                        <div className="flex relative justify-center space-y-8">
+                            <img className='w-1/3 h-1/3 z-50' src={require('../assets/lotties/Loading Lottie.gif')} />
+                            <h className='absolute bottom-5 z-0 text-3xl font-bold animate-pulse tracking-wider'>Loading...</h>
                         </div>
                     </div>
                 )}

@@ -70,46 +70,86 @@ const RaceResults = ({ setRaceResultsOrder }) => {
 
     return (
         <div className="p-6 w-fit">
-            {startingGrid.length > 0 && (
-                <div className="grid grid-cols-2 gap-3 text-center w-fit">
-                    {startingGrid.map((driver, index) => (
-                        <div key={index} className={`relative ${index % 2 === 1 ? 'mt-5' : ''} text-3xl w-fit h-fit p-3 pt-1`}>
-                            {driver.driverDetails.name_acronym && driver.driverDetails.team_name ? (
-                                <div>
-                                    <div className="absolute inset-0 border-2 border-b-0 border-gray-700" style={{ height: '25%' }}/>
-                                    <img className="h-24 w-fit" src={require(`../assets/Constructors Cars/${driver.driverDetails.name_acronym} ${driver.driverDetails.team_name}.png`)} alt={`${driver.driverDetails.name_acronym} ${driver.driverDetails.team_name}`}/>
+            <div className="flex space-x-10">
+                {startingGrid.length > 0 && (
+                    <div className="grid grid-cols-2 gap-3 text-center w-fit">
+                        {startingGrid.map((driver, index) => (
+                            <div className="flex">
+                                <div key={index} className={`relative ${index % 2 === 1 ? 'mt-5' : ''} text-3xl w-fit h-fit p-3 pt-1`}>
+                                    {driver.driverDetails.name_acronym && driver.driverDetails.team_name ? (
+                                        <div>
+                                            <div className="absolute inset-0 border-2 border-b-0 border-gray-700" style={{ height: '25%' }}/>
+                                            <img className="h-24 w-fit" src={require(`../assets/Constructors Cars/${driver.driverDetails.name_acronym} ${driver.driverDetails.team_name}.png`)} alt={`${driver.driverDetails.name_acronym} ${driver.driverDetails.team_name}`}/>
+                                        </div>
+                                    ) : (
+                                        <div></div>
+                                    )}
                                 </div>
-                            ) : (
-                                <div></div>
-                            )}
-                        </div>
-                    ))}
-                </div>
-            )}
-
-            {/* Race Results Section */}
-            {raceResults.length > 0 ? (
-                <div>
-                    <h2 className="text-2xl font-semibold mb-4">Race Results</h2>
-                    <ol className="list-decimal pl-6 space-y-2">
-                        {raceResults.map((driver, index) => (
-                            <li key={index} className="bg-gray-800 p-4 rounded-lg shadow-md">
-                                <p><strong>Driver Number:</strong> {driver.driver_number}</p>
-                                <p><strong>Name:</strong> {driver.driverDetails?.full_name || 'Loading...'}</p>
-                                <p><strong>Position:</strong> {driver.position}</p>
-                                {driver.intervals ? (
-                                    <>
-                                        <p><strong>Interval:</strong> {driver.intervals.interval} seconds</p>
-                                        <p><strong>Gap to Leader:</strong> {driver.intervals.gapToLeader} seconds</p>
-                                    </>
-                                ) : <p><strong>Interval:</strong> N/A</p>}
-                            </li>
+                                <div className="mt-6">
+                                    <p className="text-base text-gray-400 font-bold h-fit">P{index + 1}</p>
+                                    <p className="text-lg font-bold h-fit">{driver.driverDetails.name_acronym}</p>
+                                </div>
+                            </div>
                         ))}
-                    </ol>
-                </div>
-            ) : (
-                <p className="text-gray-500">No Race Results Available</p>
-            )}
+                    </div>
+                )}
+
+                {/* Race Results Section */}
+                {raceResults.length > 0 && (
+                    <div>
+                        <div className="flex justify-center items-end gap-4 mb-8">
+                            <div className="flex flex-col">
+                                <div className="flex justify-center items-center mb-3">
+                                    <img src={raceResults[1].driverDetails.headshot_url} alt={raceResults[1].driverDetails.full_name} className="w-24 h-24 mt-2"/>
+                                </div>
+                                <div className="flex flex-col items-center bg-gray-300 text-black p-4 rounded-lg">
+                                    <p className="text-sm">P2</p>
+                                    <p className="text-base font-bold mt-2">{raceResults[1].driverDetails.full_name}</p>
+                                </div>
+                            </div>
+                            <div className="flex flex-col">
+                                <div className="flex justify-center items-center mb-3">
+                                    <img src={raceResults[0].driverDetails.headshot_url} alt={raceResults[0].driverDetails.full_name} className="w-24 h-24 mt-2"/>
+                                </div>
+                                <div className="flex flex-col items-center bg-gray-300 text-black p-4 rounded-lg">
+                                    <p className="text-sm">P1</p>
+                                    <p className="text-base font-bold mt-2">{raceResults[0].driverDetails.full_name}</p>
+                                </div>
+                            </div>
+                            <div className="flex flex-col">
+                                <div className="flex justify-center items-center mb-3">
+                                    <img src={raceResults[2].driverDetails.headshot_url} alt={raceResults[2].driverDetails.full_name} className="w-24 h-24 mt-2"/>
+                                </div>
+                                <div className="flex flex-col items-center bg-gray-300 text-black p-4 rounded-lg">
+                                    <p className="text-sm">P3</p>
+                                    <p className="text-base font-bold mt-2">{raceResults[2].driverDetails.full_name}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <table className="min-w-full bg-gray-800 text-white mt-8">
+                            <thead>
+                                <tr className="bg-gray-700">
+                                    <th className="py-3 px-6 text-left">Position</th>
+                                    <th className="py-3 px-6 text-left">Driver</th>
+                                    <th className="py-3 px-6 text-left">Team</th>
+                                    <th className="py-3 px-6 text-left">Interval</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {raceResults.slice(3).map((driver, index) => (
+                                    <tr key={index} className={`border-b border-gray-600 ${index % 2 === 0 ? 'bg-gray-700' : 'bg-gray-800'}`}>
+                                        <td className="py-3 px-6">P{driver.position}</td>
+                                        <td className="py-3 px-6">{driver.driverDetails.full_name}</td>
+                                        <td className="py-3 px-6">{driver.driverDetails.team_name}</td>
+                                        <td className="py-3 px-6">{driver.intervals?.interval || 'N/A'} seconds</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
+            </div>
         </div>
     );
 };

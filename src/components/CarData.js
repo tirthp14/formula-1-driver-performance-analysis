@@ -329,7 +329,7 @@ const CarData = () => {
                     </div>
                 </>
             ) : (
-                <img className='w-1/3 h-1/3' src={require('../assets/lotties/Loading Lottie.gif')} />
+                ""
             )}
         </div>
     );
