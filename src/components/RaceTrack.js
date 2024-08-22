@@ -131,7 +131,7 @@ const RaceTrack = ({lapNumber, driverNumber}) => {
         return <Plot data={plotData} layout={layout} config={config} className='w-full h-full'/>;
     };
 
-    return <div className="w-full h-[270px] flex justify-center items-center border-[3px] border-t-0 border-lineBackground">{renderPlot()}</div>
+    return <div className="w-full h-[270px] flex justify-center items-center border-[3px] border-t-0 border-gray-500 border-opacity-20">{renderPlot()}</div>
 };
 
 export default RaceTrack;

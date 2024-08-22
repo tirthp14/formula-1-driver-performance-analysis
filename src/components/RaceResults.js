@@ -133,15 +133,17 @@ const RaceResults = ({ setRaceResultsOrder }) => {
                                     <th className="py-3 px-6 text-left">Position</th>
                                     <th className="py-3 px-6 text-left">Driver</th>
                                     <th className="py-3 px-6 text-left">Team</th>
+                                    <th className="py-3 px-6 text-left">Gap to Leader</th>
                                     <th className="py-3 px-6 text-left">Interval</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {raceResults.slice(3).map((driver, index) => (
+                                {raceResults.map((driver, index) => (
                                     <tr key={index} className={`border-b border-gray-600 ${index % 2 === 0 ? 'bg-gray-700' : 'bg-gray-800'}`}>
                                         <td className="py-3 px-6">P{driver.position}</td>
                                         <td className="py-3 px-6">{driver.driverDetails.full_name}</td>
                                         <td className="py-3 px-6">{driver.driverDetails.team_name}</td>
+                                        <td className="py-3 px-6">{driver.intervals?.gapToLeader || 'N/A'} seconds</td>
                                         <td className="py-3 px-6">{driver.intervals?.interval || 'N/A'} seconds</td>
                                     </tr>
                                 ))}

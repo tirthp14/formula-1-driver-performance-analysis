@@ -36,7 +36,7 @@ const QualifyingAnalysis = () => {
     }, [country, year, setQualifyingSessionKey]);
 
     return (
-        <div className="font-main text-neutral-100 min-h-screen bg-gradient-to-b from-gray-900 to-gray-700 py-6">
+        <div className="font-main text-neutral-100 min-h-screen bg-gradient-to-b from-gray-950 to-gray-800 py-6">
             <div className="container mx-auto px-10">
                 <div className="mb-6 flex justify-center space-x-4">
                     <select 
@@ -63,14 +63,15 @@ const QualifyingAnalysis = () => {
                 </div>
 
                 {year && country ? (
-                    <div className="py-6 bg-gray-800 text-white rounded-3xl shadow-md">
-                        <h1 className="text-center text-4xl font-extrabold tracking-wide">{year} {country} - Qualifying Analysis</h1>
+                    <div className="p-3 bg-gray-900 text-white rounded-3xl shadow-md">
+                        <h1 className="text-[42px] font-extrabold tracking-wide ml-5">{year} {country} - Qualifying Analysis</h1>
+                        <hr className="border-[1.7px] border-gray-500 border-opacity-20 my-1.5" />
                         <div className="space-y-8">
                             <CarData />
                         </div>
                     </div>
                 ) : (
-                    <div className="bg-gray-800 text-white rounded-3xl shadow-md">
+                    <div className="bg-gray-900 text-white rounded-3xl shadow-md">
                         <div className="flex relative justify-center space-y-8">
                             <img className='w-1/3 h-1/3 z-50' src={require('../assets/lotties/Loading Lottie.gif')} />
                             <h className='absolute bottom-5 z-0 text-3xl font-bold animate-pulse tracking-wider'>Loading...</h>

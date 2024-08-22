@@ -186,7 +186,7 @@ const CarData = () => {
                     <div className='w-full h-fit flex gap-8'>
                         <div className='w-2/5 driver-1 flex flex-col gap-2 pt-2'>
                             <div>
-                                <h1 className='mb-1 text-sm font-semibold text-gray-600'>DRIVER</h1>
+                                <h1 className='mb-1 text-sm font-semibold text-gray-500'>DRIVER</h1>
                                 <div className='border-l-[5px]' style={{ backgroundColor: selectedLaps[0] ? getTeamColor(0) + '1A' : "rgba(255, 255, 255, 0.2)", borderColor: selectedLaps[0] ? getTeamColor(0) : "white"}}>
                                     <div className='flex justify-between items-center p-2'>
                                         <div>
@@ -219,14 +219,14 @@ const CarData = () => {
                             <div className='flex justify-between mt-2'>
                                 {selectedLaps[0] && (
                                     <div className='flex flex-col justify-start'>
-                                        <h4 className='text-sm mb-[5px] font-semibold text-gray-600'>LAP NUMBER</h4>
+                                        <h4 className='text-sm mb-[5px] font-semibold text-gray-500'>LAP NUMBER</h4>
                                         <p className='text-3xl font-bold italic'>
                                             {selectedLaps[0].lap_number}
                                         </p>
                                     </div>
                                 )}
                                 <label>
-                                    <h4 className='text-sm font-semibold text-gray-600'>LAP TIME</h4>
+                                    <h4 className='text-sm font-semibold text-gray-500'>LAP TIME</h4>
                                     <select className='bg-transparent text-3xl font-bold italic text-left' value={selectedLaps[0]?.lap_number} onChange={(e) => handleLapChange(0, e.target.value)}>
                                         <option className='bg-gray-800 border border-gray-600 rounded-lg text-base' value="">Select Lap</option>
                                         {laps[0]?.map((lap, lapIndex) => (
@@ -238,7 +238,7 @@ const CarData = () => {
                                 </label>
                                 {gapDriver1 && (
                                     <div>
-                                        <h4 className='text-sm mb-[5px] font-semibold text-gray-600'>GAP</h4>
+                                        <h4 className='text-sm mb-[5px] font-semibold text-gray-500'>GAP</h4>
                                         <p className={`text-3xl font-bold italic ${gapDriver1.startsWith('-') ? 'text-green-600' : 'text-red-600'}`}>
                                             {gapDriver1}
                                         </p>
@@ -256,7 +256,7 @@ const CarData = () => {
                         )}
                         <div className='w-2/5 driver-2 flex flex-col gap-2 pt-2'>
                             <div>
-                                <h1 className='mb-1 text-sm font-semibold text-gray-600 text-right'>DRIVER</h1>
+                                <h1 className='mb-1 text-sm font-semibold text-gray-500 text-right'>DRIVER</h1>
                                 <div className='border-r-[5px]' style={{ backgroundColor: selectedLaps[1] ? getOppositeColor(getTeamColor(1))+ '1A' : "rgba(255, 255, 255, 0.2)", borderColor: selectedLaps[1] ? getOppositeColor(getTeamColor(1)) : "white"}}>
                                     <div className='flex justify-between items-center p-2'>
                                         <div>
@@ -289,14 +289,14 @@ const CarData = () => {
                             <div className='flex justify-between mt-2'>
                                 {gapDriver2 && (
                                     <div>
-                                        <h4 className='text-sm mb-[5px] font-semibold text-gray-600 text-right'>GAP</h4>
+                                        <h4 className='text-sm mb-[5px] font-semibold text-gray-500 text-right'>GAP</h4>
                                         <p className={`text-3xl font-bold italic ${gapDriver2.startsWith('-') ? 'text-green-600' : 'text-red-600'}`}>
                                             {gapDriver2}
                                         </p>
                                     </div>
                                 )}
                                 <label>
-                                    <h4 className='text-sm font-semibold text-gray-600 text-right'>LAP TIME</h4>
+                                    <h4 className='text-sm font-semibold text-gray-500 text-right'>LAP TIME</h4>
                                     <select className='bg-transparent text-3xl font-bold italic text-left' value={selectedLaps[1]?.lap_number} onChange={(e) => handleLapChange(1, e.target.value)}>
                                         <option className='bg-gray-800 border border-gray-600 rounded-lg text-base' value="">Select Lap</option>
                                         {laps[1]?.map((lap, lapIndex) => (
@@ -308,7 +308,7 @@ const CarData = () => {
                                 </label>
                                 {selectedLaps[1] && (
                                     <div className='flex flex-col justify-start'>
-                                        <h4 className='text-sm mb-[5px] font-semibold text-gray-600 text-right'>LAP NUMBER</h4>
+                                        <h4 className='text-sm mb-[5px] font-semibold text-gray-500 text-right'>LAP NUMBER</h4>
                                         <p className='text-3xl font-bold italic text-right'>
                                             {selectedLaps[1].lap_number}
                                         </p>

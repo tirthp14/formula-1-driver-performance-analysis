@@ -38,7 +38,7 @@ const RaceAnalysis = () => {
     }, [country, year, setRaceSessionKey]);
 
     return (
-        <div className="font-main p-6 bg-gradient-to-b from-gray-900 to-gray-700 min-h-screen text-white">
+        <div className="font-main p-6 bg-gradient-to-b from-gray-950 to-gray-800 min-h-screen text-white">
             <div className="flex justify-center mb-6 space-x-4">
                 <select className="p-2 rounded-lg bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring focus:ring-teal-400" onChange={(e) => setYear(e.target.value)} value={year}>
                     <option value="">Select Year</option>
@@ -52,7 +52,7 @@ const RaceAnalysis = () => {
                     ))}
                 </select>
             </div>
-            <div className="bg-gray-800 rounded-3xl">
+            <div className="bg-gray-900 rounded-3xl shadow-md">
                 <RaceResults setRaceResultsOrder={setRaceResultsOrder} />
                 <LapData />
                 <TyreStrategy raceResultsOrder={raceResultsOrder} />

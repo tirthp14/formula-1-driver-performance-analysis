@@ -22,10 +22,10 @@ const SegmentsDivs = ({ selectedLap }) => {
   return (
     <>
       <div>
-        <h1 className='text-sm font-semibold text-gray-600 mb-1.5'>SECTOR TIMES</h1>
+        <h1 className='text-sm font-semibold text-gray-500 mb-1.5'>SECTOR TIMES</h1>
         <div className="flex flex-row gap-4 items-center">
           {data.map((sector, sectorIndex) => (
-            <div key={sectorIndex} className="flex flex-col justify-center items-center mb-6 text-center border-[3px] border-lineBackground p-2">
+            <div key={sectorIndex} className="flex flex-col justify-center items-center mb-6 text-center border-[3px] border-gray-500 border-opacity-20 p-2">
               <h3 className="text-xl font-bold">
                 {sector.name}
               </h3>
