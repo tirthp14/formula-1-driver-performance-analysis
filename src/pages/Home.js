@@ -77,7 +77,7 @@ const Home = () => {
               transition={{ type: "spring", stiffness: 300 }}
             >
               <h3 className="text-xl font-semibold mb-4">Detailed Lap Analysis</h3>
-              <p>Break down each lap and discover crucial moments in the race.</p>
+              <p>Break down each lap and discover crucial moments in the race and beyond.</p>
             </motion.div>
           </div>
         </div>
