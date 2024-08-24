@@ -72,83 +72,92 @@ const RaceResults = ({ setRaceResultsOrder }) => {
         <div className="p-6 w-fit">
             <div className="flex space-x-10">
                 {startingGrid.length > 0 && (
-                    <div className="grid grid-cols-2 gap-3 text-center w-fit">
-                        {startingGrid.map((driver, index) => (
-                            <div className="flex">
-                                <div key={index} className={`relative ${index % 2 === 1 ? 'mt-5' : ''} text-3xl w-fit h-fit p-3 pt-1`}>
-                                    {driver.driverDetails.name_acronym && driver.driverDetails.team_name ? (
-                                        <div>
-                                            <div className="absolute inset-0 border-2 border-b-0 border-gray-700" style={{ height: '25%' }}/>
-                                            <img className="h-24 w-fit" src={require(`../assets/Constructors Cars/${driver.driverDetails.name_acronym} ${driver.driverDetails.team_name}.png`)} alt={`${driver.driverDetails.name_acronym} ${driver.driverDetails.team_name}`}/>
-                                        </div>
-                                    ) : (
-                                        <div></div>
-                                    )}
-                                </div>
-                                <div className="mt-6">
-                                    <p className="text-base text-gray-400 font-bold h-fit">P{index + 1}</p>
-                                    <p className="text-lg font-bold h-fit">{driver.driverDetails.name_acronym}</p>
-                                </div>
+                    <div className="p-5 bg-gray-800 rounded-3xl">
+                        <div className="p-4 rounded-lg mb-5 border-[2px] border-slate-500">
+                            <div className="flex justify-center space-x-2">
+                                <div className="w-7 h-7 bg-gray-700 rounded-full animate-light1"></div>
+                                <div className="w-7 h-7 bg-gray-700 rounded-full animate-light2"></div>
+                                <div className="w-7 h-7 bg-gray-700 rounded-full animate-light3"></div>
+                                <div className="w-7 h-7 bg-gray-700 rounded-full animate-light4"></div>
+                                <div className="w-7 h-7 bg-gray-700 rounded-full animate-light5"></div>
                             </div>
-                        ))}
+                        </div>
+                        <div className="grid grid-cols-2 gap-3 text-center w-fit">
+                            {startingGrid.map((driver, index) => (
+                                <div className="flex">
+                                    <div key={index} className={`relative ${index % 2 === 1 ? 'mt-5' : ''} text-3xl w-fit h-fit p-3 pt-1`}>
+                                        {driver.driverDetails.name_acronym && driver.driverDetails.team_name ? (
+                                            <div>
+                                                <div className="absolute inset-0 border-2 border-b-0 border-gray-700" style={{ height: '25%' }}/>
+                                                <img className="h-24 w-fit" src={require(`../assets/Constructors Cars/${driver.driverDetails.name_acronym} ${driver.driverDetails.team_name}.png`)} alt={`${driver.driverDetails.name_acronym} ${driver.driverDetails.team_name}`}/>
+                                            </div>
+                                        ) : (
+                                            <div></div>
+                                        )}
+                                    </div>
+                                    <div className="mt-6">
+                                        <p className="text-base text-gray-400 font-bold h-fit">P{index + 1}</p>
+                                        <p className="text-lg font-bold h-fit">{driver.driverDetails.name_acronym}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 )}
 
                 {/* Race Results Section */}
                 {raceResults.length > 0 && (
                     <div>
-                        <div className="flex justify-center items-end gap-4 mb-8">
+                        <div className="flex justify-center items-end mb-8">
                             <div className="flex flex-col">
-                                <div className="flex justify-center items-center mb-3">
-                                    <img src={raceResults[1].driverDetails.headshot_url} alt={raceResults[1].driverDetails.full_name} className="w-24 h-24 mt-2"/>
+                                <div className="flex justify-center items-center">
+                                    <img src={raceResults[1].driverDetails.headshot_url} alt={raceResults[1].driverDetails.full_name} className="w-28 h-28 mt-2"/>
                                 </div>
-                                <div className="flex flex-col items-center bg-gray-300 text-black p-4 rounded-lg">
-                                    <p className="text-sm">P2</p>
-                                    <p className="text-base font-bold mt-2">{raceResults[1].driverDetails.full_name}</p>
+                                <div className="flex flex-col items-center justify-end bg-slate-800 text-white p-2 h-14 w-44 shadow-lg shadow-gray-400/10">
+                                    <p className="text-2xl font-extrabold tracking-widest">P2</p>
                                 </div>
                             </div>
                             <div className="flex flex-col">
-                                <div className="flex justify-center items-center mb-3">
-                                    <img src={raceResults[0].driverDetails.headshot_url} alt={raceResults[0].driverDetails.full_name} className="w-24 h-24 mt-2"/>
+                                <div className="flex justify-center items-center">
+                                    <img src={raceResults[0].driverDetails.headshot_url} alt={raceResults[0].driverDetails.full_name} className="w-32 h-32 mt-2"/>
                                 </div>
-                                <div className="flex flex-col items-center bg-gray-300 text-black p-4 rounded-lg">
-                                    <p className="text-sm">P1</p>
-                                    <p className="text-base font-bold mt-2">{raceResults[0].driverDetails.full_name}</p>
+                                <div className="flex flex-col items-center justify-end bg-slate-800 text-white p-2 h-20 w-44 shadow-lg shadow-gray-400/10 z-50">
+                                    <p className="text-2xl font-extrabold tracking-widest">P1</p>
                                 </div>
                             </div>
                             <div className="flex flex-col">
-                                <div className="flex justify-center items-center mb-3">
-                                    <img src={raceResults[2].driverDetails.headshot_url} alt={raceResults[2].driverDetails.full_name} className="w-24 h-24 mt-2"/>
+                                <div className="flex justify-center items-center">
+                                    <img src={raceResults[2].driverDetails.headshot_url} alt={raceResults[2].driverDetails.full_name} className="w-28 h-28 mt-2"/>
                                 </div>
-                                <div className="flex flex-col items-center bg-gray-300 text-black p-4 rounded-lg">
-                                    <p className="text-sm">P3</p>
-                                    <p className="text-base font-bold mt-2">{raceResults[2].driverDetails.full_name}</p>
+                                <div className="flex flex-col items-center justify-end bg-slate-800 text-white p-2 h-12 w-44 shadow-lg shadow-gray-400/10">
+                                    <p className="text-2xl font-extrabold tracking-widest">P3</p>
                                 </div>
                             </div>
                         </div>
-
-                        <table className="min-w-full bg-gray-800 text-white mt-8">
-                            <thead>
-                                <tr className="bg-gray-700">
-                                    <th className="py-3 px-6 text-left">Position</th>
-                                    <th className="py-3 px-6 text-left">Driver</th>
-                                    <th className="py-3 px-6 text-left">Team</th>
-                                    <th className="py-3 px-6 text-left">Gap to Leader</th>
-                                    <th className="py-3 px-6 text-left">Interval</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {raceResults.map((driver, index) => (
-                                    <tr key={index} className={`border-b border-gray-600 ${index % 2 === 0 ? 'bg-gray-700' : 'bg-gray-800'}`}>
-                                        <td className="py-3 px-6">P{driver.position}</td>
-                                        <td className="py-3 px-6">{driver.driverDetails.full_name}</td>
-                                        <td className="py-3 px-6">{driver.driverDetails.team_name}</td>
-                                        <td className="py-3 px-6">{driver.intervals?.gapToLeader || 'N/A'} seconds</td>
-                                        <td className="py-3 px-6">{driver.intervals?.interval || 'N/A'} seconds</td>
+                        <div className="bg-gray-800 text-lg tracking-wide rounded-3xl p-5">
+                            <table className="min-w-full text-white">
+                                <thead>
+                                    <tr>
+                                        <th className="pb-1 px-5 text-left text-gray-400">POS</th>
+                                        <th className="pb-1 px-5 text-left text-gray-400">NAME</th>
+                                        <th className="pb-1 px-5 text-left text-gray-400">TEAM</th>
+                                        <th className="pb-1 px-5 text-left text-gray-400">GAP</th>
+                                        <th className="pb-1 px-5 text-left text-gray-400">INT</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {raceResults.map((driver, index) => (
+                                        <tr key={index} className={`bg-opacity-50 ${index % 2 === 0 ? 'bg-gray-700' : 'bg-gray-800'}`}>
+                                            <td className="py-1 px-5 font-bold text-center">{driver.position}</td>
+                                            <td className="py-1 pl-5 pr-12 tracking-wider font-bold border-l-[5px]" style={{ borderColor: driver.driverDetails.team_colour ? `#${driver.driverDetails.team_colour}` : "white"}}>{driver.driverDetails.broadcast_name}</td>
+                                            <td className="py-1 px-5 font-semibold">{driver.driverDetails.team_name}</td>
+                                            <td className="py-1 px-5 text-yellow-400">{driver.intervals?.gapToLeader || '--'}</td>
+                                            <td className="py-1 px-5">{driver.intervals?.interval || '--'}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 )}
             </div>
