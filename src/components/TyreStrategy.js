@@ -52,10 +52,12 @@ const TyreStrategy = ({ driverCode, raceResultsOrder }) => {
     }, [raceSessionKey, raceResultsOrder]);
 
     if (!drivers.length) {
-        return  <div className="flex relative justify-center">
-                    <img className='w-1/3 h-1/3 z-50' src={require('../assets/lotties/Loading Lottie.gif')} />
-                    <h className='absolute bottom-5 z-0 text-3xl font-bold animate-pulse tracking-wider'>Loading...</h>
-                </div>
+        return (
+            <div className="flex relative justify-center">
+                <img className='w-1/3 h-1/3 z-50' src={require('../assets/lotties/Loading Lottie.gif')} />
+                <h className='absolute bottom-5 z-0 text-3xl font-bold animate-pulse tracking-wider'>Loading...</h>
+            </div>
+        );
     }
 
     const transformedData = drivers.map(driver => {
@@ -90,9 +92,9 @@ const TyreStrategy = ({ driverCode, raceResultsOrder }) => {
     const CustomTooltip = ({ active, payload, label }) => {
         if (active && payload && payload.length) {
             return (
-                <div className="custom-tooltip bg-black text-white p-2 rounded">
-                    <p className="font-bold">{label}</p>
-                    <hr className="my-2" />
+                <div className="custom-tooltip bg-gray-900 text-white p-4 rounded-lg shadow-lg">
+                    <p className="font-bold text-lg">{label}</p>
+                    <hr className="my-2 border-gray-600" />
                     {payload.map((entry, index) => (
                         <p key={index} style={{ color: tyreCompounds[entry.name.replace(/[0-9]/g, '')] }}>
                             {capitalizeFirstLetter(entry.name.replace(/[0-9]/g, ''))}: {entry.value}
@@ -106,27 +108,29 @@ const TyreStrategy = ({ driverCode, raceResultsOrder }) => {
     };
 
     return (
-        <div>
-            <h3 className="text-2xl font-bold mb-8 text-neutral-400">Tyre Strategy</h3>
-            <div className="relative p-4">
+        <div className="p-6">
+            <div className="relative bg-gray-800 rounded-lg p-4 shadow-lg">
+                <p className="text-lg font-semibold mb-4 text-gray-200">Tyre Strategy</p>
                 <ResponsiveContainer width="100%" height={driverCode ? 300 : 700}>
                     <BarChart
                         data={transformedData}
                         layout="vertical"
-                        margin={{ right: 30 }}
+                        margin={{ right: 30, left: 10, top: 10, bottom: 10 }}
                     >
-                        <CartesianGrid strokeDasharray="3 3" />
+                        <CartesianGrid strokeDasharray="3 3" stroke="#444444" />
                         <XAxis 
                             type="number"
                             domain={[0, maxLap]}
                             ticks={[...Array(maxLap + 1).keys()].filter(lap => lap % 10 === 0)}
+                            tick={{ fill: '#a1a1aa', fontSize: 15, fontWeight: 'bold' }}
                         />
                         <YAxis 
                             dataKey="acronym"
                             type="category"
                             interval={0}
+                            tick={{ fill: '#a1a1aa', fontSize: 15, fontWeight: 'bold' }}
                         />
-                        <Tooltip content={<CustomTooltip />} cursor={{ fill: 'grey' }} />
+                        <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(255, 255, 255, 0.2)' }} />
                         {tyreKeys.sort((a, b) => {
                             const aNum = parseInt(a.match(/\d+$/)?.[0], 10);
                             const bNum = parseInt(b.match(/\d+$/)?.[0], 10);
@@ -142,12 +146,35 @@ const TyreStrategy = ({ driverCode, raceResultsOrder }) => {
                                 <LabelList 
                                     dataKey={key}
                                     position="center"
-                                    fill="black" 
+                                    fill="white" 
+                                    style={{ fontSize: 15, fontWeight: 'bold' }}
                                 />
                             </Bar>
                         ))}
                     </BarChart>
                 </ResponsiveContainer>
+                <div className="flex justify-center mb-4">
+                    <div className="flex items-center mr-6">
+                        <div className="w-4 h-4 bg-[#e11d48] mr-2"></div>
+                        <span className="text-gray-200">Soft</span>
+                    </div>
+                    <div className="flex items-center mr-6">
+                        <div className="w-4 h-4 bg-[#fbbf24] mr-2"></div>
+                        <span className="text-gray-200">Medium</span>
+                    </div>
+                    <div className="flex items-center mr-6">
+                        <div className="w-4 h-4 bg-[#d3d3d3] mr-2"></div>
+                        <span className="text-gray-200">Hard</span>
+                    </div>
+                    <div className="flex items-center mr-6">
+                        <div className="w-4 h-4 bg-[#16a34a] mr-2"></div>
+                        <span className="text-gray-200">Intermediate</span>
+                    </div>
+                    <div className="flex items-center mr-6">
+                        <div className="w-4 h-4 bg-[#2563eb] mr-2"></div>
+                        <span className="text-gray-200">Wet</span>
+                    </div>
+                </div>
             </div>
         </div>
     );

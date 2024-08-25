@@ -41,7 +41,6 @@ const WindData = () => {
 
     return (
         <div>
-            <h2>This is the windata page, kinda!!</h2>
             {avgWindDirection !== null && avgWindSpeed !== null && avgAirTemp !== null && avgTrackTemp !== null ? (
                 <div>
                     <p>Average Wind Direction: {avgWindDirection}</p>

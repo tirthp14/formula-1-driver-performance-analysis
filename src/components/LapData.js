@@ -1,6 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { SessionContext } from "../utils/SessionContext";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import {
+    LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
+} from 'recharts';
 
 const LapData = () => {
     const { raceSessionKey } = useContext(SessionContext);
@@ -9,6 +11,31 @@ const LapData = () => {
     const [driverVisibility, setDriverVisibility] = useState({});
     const [driverColors, setDriverColors] = useState({});
     const [driverAcronyms, setDriverAcronyms] = useState({});
+    const [hoveredDriver, setHoveredDriver] = useState(null);
+
+    const predefinedColors = {
+        44: '#25f5d3',
+        1: '#3770c5',
+        16: '#ea001b',
+        63: '#6cfffc',
+        81: '#ffcc4c',
+        4: '#ff7f00',
+        55: '#fe4d6f',
+        11: '#83bfff',
+        14: '#219a71',
+        31: '#4edffc',
+        3: '#6692fc',
+        18: '#6de7be',
+        23: '#afffff',
+        10: '#0193cb',
+        20: '#b6babd',
+        77: '#a0fea1',
+        22: '#b0dfff',
+        2: '#63c5fd',
+        27: '#ffffff',
+        24: '#54e251',
+        38: '#fe4d6f'
+    };
 
     useEffect(() => {
         const fetchDriverDetails = async () => {
@@ -37,9 +64,9 @@ const LapData = () => {
     useEffect(() => {
         const fetchLapData = async () => {
             const initialVisibility = {};
-            const newColors = {};
 
-            for (let driver of selectedDrivers) {
+            for (let i = 0; i < selectedDrivers.length; i++) {
+                const driver = selectedDrivers[i];
                 try {
                     const response = await fetch(`https://api.openf1.org/v1/laps?session_key=${raceSessionKey}&driver_number=${driver}`);
                     const data = await response.json();
@@ -57,13 +84,12 @@ const LapData = () => {
                         [driver]: formattedData
                     }));
 
-                    // Set default visibility and color for new drivers
-                    if (!initialVisibility[driver]) {
-                        initialVisibility[driver] = true;
-                    }
-                    if (!newColors[driver]) {
-                        newColors[driver] = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
-                    }
+                    initialVisibility[driver] = i < 3;
+
+                    setDriverColors(prevColors => ({
+                        ...prevColors,
+                        [driver]: predefinedColors[driver] || '#000000'
+                    }));
 
                 } catch (error) {
                     console.log(`Error fetching lap data for driver ${driver}:`, error);
@@ -71,7 +97,6 @@ const LapData = () => {
             }
 
             setDriverVisibility(initialVisibility);
-            setDriverColors(newColors);
         };
 
         if (selectedDrivers.length > 0) {
@@ -104,24 +129,37 @@ const LapData = () => {
         <div className="p-6">
             {formattedData.length > 0 && (
                 <>
-                    <div className="mb-6">
-                        <p className="text-lg font-semibold mb-2">Lap Times:</p>
+                    <div className="bg-gray-800 rounded-lg p-4 shadow-lg mb-6">
+                        <p className="text-lg font-semibold mb-4 text-gray-200">Lap Times</p>
                         <ResponsiveContainer width="100%" height={400}>
                             <LineChart data={formattedData}>
-                                <CartesianGrid strokeDasharray="3 3" />
-                                <XAxis dataKey="lapNumber" />
-                                <YAxis domain={['auto', 'auto']} />
-                                <Tooltip />
-                                <Legend />
+                                <CartesianGrid strokeDasharray="3 3" stroke="#444444" />
+                                <XAxis dataKey="lapNumber" tick={{ fill: '#a1a1aa', fontSize: 15, fontWeight: 'bold' }} />
+                                <YAxis domain={['auto', 'auto']} tick={{ fill: '#a1a1aa', fontSize: 15, fontWeight: 'bold' }} />
+                                <Tooltip
+                                    contentStyle={{
+                                        backgroundColor: '#111827',
+                                        borderColor: '#111827',
+                                        color: '#ffffff',
+                                        borderRadius: '8px'
+                                    }}
+                                    formatter={(values, driver, props) => [`${values} min`, `${driverAcronyms[driver]} (Lap ${props.payload.lapNumber})`]}
+                                />
+                                <Legend wrapperStyle={{ color: '#ffffff' }} />
                                 {selectedDrivers.map(driver => (
                                     driverVisibility[driver] && (
                                         <Line
                                             key={driver}
-                                            type="monotone"
+                                            type="natural"
                                             dataKey={driver}
                                             stroke={driverColors[driver]}
-                                            activeDot={{ r: 8 }}
-                                            name={`Driver ${driverAcronyms[driver] || driver}`}
+                                            strokeWidth={hoveredDriver === driver ? 3 : 2}
+                                            activeDot={{ r: 10, stroke: '#ffffff', strokeWidth: 2 }}
+                                            name={`${driverAcronyms[driver] || driver}`}
+                                            dot={true}
+                                            strokeDasharray={hoveredDriver === driver ? "5 5" : "0"}
+                                            onMouseEnter={() => setHoveredDriver(driver)}
+                                            onMouseLeave={() => setHoveredDriver(null)}
                                         />
                                     )
                                 ))}
@@ -132,11 +170,16 @@ const LapData = () => {
                         {selectedDrivers.map((driver, index) => (
                             <button
                                 key={index}
-                                className="py-1 px-4 text-white font-semibold rounded"
-                                onClick={() => handleDriverVisibilityChange(driverAcronyms[driver] || `Driver ${driver}`)}
-                                style={{ backgroundColor: driverVisibility[driverAcronyms[driver] || `Driver ${driver}`] ? driverColors[driverAcronyms[driver] || `Driver ${driver}`] : '#333333' }}
+                                className="py-1 px-4 text-white font-bold text-lg rounded transition-all duration-200 ease-in-out transform hover:scale-105"
+                                onClick={() => handleDriverVisibilityChange(driver)}
+                                onMouseEnter={() => setHoveredDriver(driver)}
+                                onMouseLeave={() => setHoveredDriver(null)}
+                                style={{
+                                    backgroundColor: driverVisibility[driver] ? driverColors[driver] : '#333333',
+                                    boxShadow: driverVisibility[driver] ? `0px 0px 10px ${driverColors[driver]}` : 'none'
+                                }}
                             >
-                                {driverAcronyms[driver] || `Driver ${driver}`}
+                                {driverAcronyms[driver] || `${driver}`}
                             </button>
                         ))}
                     </div>

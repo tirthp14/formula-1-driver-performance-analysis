@@ -53,6 +53,11 @@ const RaceAnalysis = () => {
                 </select>
             </div>
             <div className="bg-gray-900 rounded-3xl shadow-md">
+                {year && country && (
+                    <div className="p-3 text-white pb-0">
+                        <h1 className="text-[42px] font-extrabold tracking-wide ml-5">{year} {country} - Race Analysis</h1>
+                    </div>
+                )}
                 <RaceResults setRaceResultsOrder={setRaceResultsOrder} />
                 <LapData />
                 <TyreStrategy raceResultsOrder={raceResultsOrder} />
