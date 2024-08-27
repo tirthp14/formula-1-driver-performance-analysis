@@ -26,7 +26,6 @@ const QualifyingAnalysis = () => {
         const fetchQualifyingSessionKey = async () => {
             if (year && country) {
                 const sessionKey = await fetchSessionKey(country, "Qualifying", year);
-                console.log("Session Key: ", sessionKey); // Remember to remove this
 
                 setQualifyingSessionKey(sessionKey);
             }
@@ -63,7 +62,7 @@ const QualifyingAnalysis = () => {
                 </div>
 
                 {year && country ? (
-                    <div className="p-3 bg-gray-900 text-white rounded-3xl shadow-md">
+                    <div className="p-5 bg-gray-900 text-white rounded-3xl shadow-md">
                         <h1 className="text-[42px] font-extrabold tracking-wide ml-5">{year} {country} - Qualifying Analysis</h1>
                         <hr className="border-[1.7px] border-gray-500 border-opacity-20 my-1.5" />
                         <div className="space-y-8">
