@@ -29,6 +29,7 @@ const RaceAnalysis = () => {
         const fetchRaceSessionKey = async () => {
             if (year && country) {
                 const sessionKey = await fetchSessionKey(country, "Race", year);
+                console.log(sessionKey) // Remember to remove this
 
                 setRaceSessionKey(sessionKey);
             }
