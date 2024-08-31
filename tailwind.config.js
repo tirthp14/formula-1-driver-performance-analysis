@@ -5,6 +5,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      height: {
+        'screen-minus-92': 'calc(100vh - 92px)',
+      },
       keyframes: {
         lightframe: {
           '0%': { backgroundColor: '#4b5563' },

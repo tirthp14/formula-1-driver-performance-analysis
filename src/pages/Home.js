@@ -5,7 +5,7 @@ const Home = () => {
   return (
     <div className="bg-gradient-to-b from-gray-950 to-gray-800 text-white min-h-screen flex flex-col justify-between">
       {/* Hero Section */}
-      <section className="h-screen flex flex-col justify-center items-center text-center px-6 py-12 md:px-12">
+      <section className="h-screen-minus-92 flex flex-col justify-center items-center text-center px-6 py-12 md:px-12">
         <motion.h1
           className="text-4xl md:text-6xl font-bold mb-4"
           initial={{ opacity: 0, y: -50 }}

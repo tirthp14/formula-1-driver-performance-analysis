@@ -38,7 +38,7 @@ const TyreStrategy = ({ driverCode, raceResultsOrder }) => {
                 if (raceResultsOrder.length > 0) {
                     const sortedDrivers = raceResultsOrder.map(driverNumber =>
                         driversArray.find(driver => driver.driver_number === driverNumber)
-                    ).filter(driver => driver); // Ensure no undefined drivers
+                    ).filter(driver => driver);
                     setDrivers(sortedDrivers);
                 }
             } catch (error) {
@@ -92,11 +92,11 @@ const TyreStrategy = ({ driverCode, raceResultsOrder }) => {
     const CustomTooltip = ({ active, payload, label }) => {
         if (active && payload && payload.length) {
             return (
-                <div className="custom-tooltip bg-gray-900 text-white p-4 rounded-lg shadow-lg">
-                    <p className="font-bold text-lg">{label}</p>
+                <div className="custom-tooltip text-white p-4 rounded-lg bg-gray-900 bg-opacity-80 backdrop-blur-sm z-[100] animate-slide-in drop-shadow-md">
+                    <p className="font-extrabold tracking-wider text-xl">{label}</p>
                     <hr className="my-2 border-gray-600" />
                     {payload.map((entry, index) => (
-                        <p key={index} style={{ color: tyreCompounds[entry.name.replace(/[0-9]/g, '')] }}>
+                        <p className="font-semibold text-lg" key={index} style={{ color: tyreCompounds[entry.name.replace(/[0-9]/g, '')] }}>
                             {capitalizeFirstLetter(entry.name.replace(/[0-9]/g, ''))}: {entry.value}
                         </p>
                     ))}
@@ -108,8 +108,8 @@ const TyreStrategy = ({ driverCode, raceResultsOrder }) => {
     };
 
     return (
-        <div className="p-6">
-            <div className="relative bg-gray-800 rounded-lg p-4 shadow-lg">
+        <div>
+            <div className="relative bg-gray-800 rounded-3xl p-4 shadow-lg">
                 <p className="text-lg font-semibold mb-4 text-gray-200">Tyre Strategy</p>
                 <ResponsiveContainer width="100%" height={driverCode ? 300 : 700}>
                     <BarChart
@@ -140,7 +140,6 @@ const TyreStrategy = ({ driverCode, raceResultsOrder }) => {
                                 key={key}
                                 dataKey={key}
                                 stackId="a"
-                                stroke={tyreCompounds[key.replace(/[0-9]/g, '')]}
                                 fill={tyreCompounds[key.replace(/[0-9]/g, '')]}
                             >
                                 <LabelList 

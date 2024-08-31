@@ -60,9 +60,7 @@ const RaceAnalysis = () => {
                             <h1 className="text-[42px] font-extrabold tracking-wide ml-5">{year} {country} - Race Analysis</h1>
                         </div>
                     )}
-                    <RaceResults setRaceResultsOrder={setRaceResultsOrder} />
-                    <LapData />
-                    <TyreStrategy raceResultsOrder={raceResultsOrder} />
+                    <RaceResults />
                 </div>
             </div>
         </div>
