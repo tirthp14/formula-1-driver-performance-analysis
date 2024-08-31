@@ -20,7 +20,7 @@ const Home = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
         >
-          Explore, analyze, and visualize F1 races like never before.
+          Explore, analyze, and visualize F1 races like never done before.
         </motion.p>
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
