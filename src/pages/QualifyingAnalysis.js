@@ -35,7 +35,7 @@ const QualifyingAnalysis = () => {
     }, [country, year, setQualifyingSessionKey]);
 
     return (
-        <div className="font-main text-neutral-100 min-h-screen bg-gradient-to-b from-gray-950 to-gray-800 py-6">
+        <div className="font-main text-neutral-100 min-h-screen bg-gradient-to-b from-gray-950 to-gray-800 pt-2 pb-6">
             <div className="container mx-auto px-10">
                 <div className="mb-6 flex justify-center space-x-4">
                     <select 

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 function Navbar() {
     return (
-        <div className="bg-transparent text-white font-main flex items-center justify-between sticky top-0 z-50 py-4 px-16">
+        <div className="bg-transparent container text-white font-main flex items-center justify-between sticky top-0 z-50 py-4 px-10 mx-auto">
             {/* Logo Section */}
             <div className="flex items-center justify-center bg-gray-900 h-10 w-10 rounded-full">
                 <span className="text-2xl font-bold">F</span> {/* Replace with your logo */}
