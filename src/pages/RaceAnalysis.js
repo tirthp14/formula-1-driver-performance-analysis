@@ -2,13 +2,13 @@ import React, { useContext, useState, useEffect } from "react";
 import { SessionContext } from "../utils/SessionContext";
 import { fetchSessionKey } from "../utils/FetchSessionKey";
 import RaceResults from "../components/RaceResults";
+import WindData from "../components/WindData";
 
 const RaceAnalysis = () => {
     const { setRaceSessionKey } = useContext(SessionContext);
     const [year, setYear] = useState("");
     const [country, setCountry] = useState("");
     const [locations, setLocations] = useState([]);
-    const [raceResultsOrder, setRaceResultsOrder] = useState([]);
 
     useEffect(() => {
         const fetchLocations = async () => {
@@ -53,11 +53,14 @@ const RaceAnalysis = () => {
                     </select>
                 </div>
                 <div className="bg-gray-900 rounded-3xl shadow-md">
-                    {year && country && (
-                        <div className="p-3 text-white pb-0">
-                            <h1 className="text-[42px] font-extrabold tracking-wide ml-5">{year} {country} - Race Analysis</h1>
-                        </div>
-                    )}
+                    <div className="flex p-3 justify-between bg-gray-700/40 rounded-t-3xl">
+                        {year && country && (
+                            <div>
+                                <h1 className="text-[42px] font-extrabold tracking-wide ml-5">{year} {country} - Race Analysis</h1>
+                            </div>
+                        )}
+                        <WindData />
+                    </div>
                     <RaceResults />
                 </div>
             </div>

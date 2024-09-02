@@ -4,7 +4,6 @@ import LapData from "../components/LapData";
 import TyreStrategy from "../components/TyreStrategy";
 import FastestLap from "../components/FastestLap";
 import FastestPitstop from "../components/FastestPitstop";
-import WindData from "../components/WindData";
 
 const RaceResults = () => {
     const {raceSessionKey} = useContext(SessionContext);
@@ -75,17 +74,17 @@ const RaceResults = () => {
     }, [raceSessionKey]);
 
     return (
-        <div className="p-6 w-fit">
+        <div className="p-10 w-fit">
             <div className="flex space-x-10">
                 <div className="space-y-10">
                     {/* Race Results Section */}
                     {raceResults.length > 0 && (
                         <div>
-                            <div className="flex flex-row">
-                                <div className="flex justify-center items-end mb-8">
+                            <div className="flex flex-row justify-end mb-2">
+                                <div className="flex justify-center items-end mb-8 mx-auto">
                                     <div className="flex flex-col">
                                         <div className="flex justify-center items-center">
-                                            <img src={raceResults[1].driverDetails.headshot_url} alt={raceResults[1].driverDetails.full_name} className="w-28 h-28 mt-2"/>
+                                            <img src={raceResults[1].driverDetails.headshot_url} alt={raceResults[1].driverDetails.full_name} className="w-32 h-32 mt-2"/>
                                         </div>
                                         <div className="flex flex-col items-center justify-end bg-slate-800 text-white p-2 h-14 w-44 shadow-lg shadow-gray-400/10">
                                             <p className="text-2xl font-extrabold tracking-widest">P2</p>
@@ -93,7 +92,7 @@ const RaceResults = () => {
                                     </div>
                                     <div className="flex flex-col">
                                         <div className="flex justify-center items-center">
-                                            <img src={raceResults[0].driverDetails.headshot_url} alt={raceResults[0].driverDetails.full_name} className="w-32 h-32 mt-2"/>
+                                            <img src={raceResults[0].driverDetails.headshot_url} alt={raceResults[0].driverDetails.full_name} className="w-36 h-36 mt-2"/>
                                         </div>
                                         <div className="flex flex-col items-center justify-end bg-slate-800 text-white p-2 h-20 w-44 shadow-lg shadow-gray-400/10 z-30">
                                             <p className="text-2xl font-extrabold tracking-widest">P1</p>
@@ -101,7 +100,7 @@ const RaceResults = () => {
                                     </div>
                                     <div className="flex flex-col">
                                         <div className="flex justify-center items-center">
-                                            <img src={raceResults[2].driverDetails.headshot_url} alt={raceResults[2].driverDetails.full_name} className="w-28 h-28 mt-2"/>
+                                            <img src={raceResults[2].driverDetails.headshot_url} alt={raceResults[2].driverDetails.full_name} className="w-32 h-32 mt-2"/>
                                         </div>
                                         <div className="flex flex-col items-center justify-end bg-slate-800 text-white p-2 h-12 w-44 shadow-lg shadow-gray-400/10">
                                             <p className="text-2xl font-extrabold tracking-widest">P3</p>
@@ -109,18 +108,14 @@ const RaceResults = () => {
                                     </div>
                                 </div>
                                 
-                                <div className="flex justify-around space-x-4 mt-8">
-                                    <div className="bg-gray-800 rounded-xl shadow-md w-64">
-                                        <h3 className="text-xl font-bold text-yellow-400 mb-4">Fastest Lap</h3>
-                                        <FastestLap />
-                                    </div>
-                                    <div className="bg-gray-800 p-5 rounded-xl shadow-md w-64">
-                                        <h3 className="text-xl font-bold text-yellow-400 mb-4">Fastest Pitstop</h3>
-                                        <FastestPitstop />
-                                    </div>
-                                    <div className="bg-gray-800 p-5 rounded-xl shadow-md w-64">
-                                        <h3 className="text-xl font-bold text-yellow-400 mb-4">Wind Data</h3>
-                                        <WindData />
+                                <div className="flex justify-around items-center space-x-4 my-8">
+                                    <div className="shadow-md">
+                                        <div className="mb-3">
+                                            <FastestLap />
+                                        </div>
+                                        <div>
+                                            <FastestPitstop />
+                                        </div>
                                     </div>
                                 </div>
                             </div>

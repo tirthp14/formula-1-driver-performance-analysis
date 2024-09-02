@@ -16,7 +16,7 @@ function Navbar() {
             </div>
 
             {/* Notify Button */}
-            <div className="flex items-center justify-center font-bold text-lg bg-[#ffffff] bg-opacity-5 backdrop-blur-sm z-[100] animate-slide-in drop-shadow-md px-6 py-4 rounded-full hover:bg-gray-800 transition-colors duration-300">
+            <div className="flex items-center justify-center font-bold text-lg bg-[#ffffff] bg-opacity-5 backdrop-blur-sm z-[100] animate-slide-in drop-shadow-md px-6 py-4 rounded-full transition-colors duration-300">
                 <Link to="/notify" className="hover:text-gray-400 transition-colors duration-300">&lt;About me/&gt;</Link>
             </div>
         </div>

@@ -21,3 +21,8 @@ export function calculateAvgTrackTemp(trackTemp) {
     const totalTrackTemp = trackTemp.reduce((acc, trackTemp) => acc + trackTemp, 0);
     return totalTrackTemp / trackTemp.length;
 }
+
+export function calculateAvgHumidity(humidity) {
+    const totalHumidity = humidity.reduce((acc, humidity) => acc + humidity, 0);
+    return totalHumidity / humidity.length;
+}

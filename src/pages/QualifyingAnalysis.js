@@ -62,10 +62,11 @@ const QualifyingAnalysis = () => {
                 </div>
 
                 {year && country ? (
-                    <div className="p-5 bg-gray-900 text-white rounded-3xl shadow-md">
-                        <h1 className="text-[42px] font-extrabold tracking-wide ml-5">{year} {country} - Qualifying Analysis</h1>
-                        <hr className="border-[1.7px] border-gray-500 border-opacity-20 my-1.5" />
-                        <div className="space-y-8">
+                    <div className="bg-gray-900 text-white rounded-3xl shadow-md">
+                        <div className="p-3 bg-gray-700/40 rounded-t-3xl">
+                            <h1 className="text-[42px] font-extrabold tracking-wide ml-5">{year} {country} - Qualifying Analysis</h1>
+                        </div>
+                        <div className="p-5 space-y-8">
                             <CarData />
                         </div>
                     </div>

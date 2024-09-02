@@ -47,31 +47,31 @@ const FastestLap = () => {
     const styleDriverName = (name) => {
         const [firstName, lastName] = name.split(' ');
         return (
-            <p className="text-2xl font-extrabold">
+            <p className="text-2xl font-extrabold tracking-wide mb-1.5">
                 <span>{firstName} </span>
-                <span style={{ color: `#${fastestLapDriver.team_colour}` }}>{lastName}</span>
+                <span style={{ color: `#${fastestLapDriver.team_colour}` || "white" }}>{lastName}</span>
             </p>
         );
     };
 
     return (
-        <div className="max-w-md mx-auto bg-gray-800 shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 ease-in-out">
+        <div className="max-w-md mx-auto shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 ease-in-out">
             {fastestLapDriver && (
-                <div className="flex items-center border-l-[5px]"
+                <div className="flex items-center border-l-[5px] h-24"
                      style={{ 
-                         background: `#${fastestLapDriver.team_colour}33`,
+                         background: `#${fastestLapDriver.team_colour}1A` || "white",
                          borderColor: `#${fastestLapDriver.team_colour}CC` || "white"
                      }}>
-                    <div className="p-2">
-                        <img className='object-contain w-16 h-16' 
+                    <div className="p-2 px-5">
+                        <img className='object-contain w-20 h-20' 
                             src={require(`../assets/Constructors Logo/${fastestLapDriver.team_name}.png`)} 
                             alt="Driver Team Logo" />
                     </div>
-                    <div className="text-white">
+                    <div className="text-white w-full pr-5">
                         {styleDriverName(fastestLapDriver.full_name)}
-                        <div className="flex items-center">
-                            <p className="text-lg">Lap {fastestLap.lap_number}</p>
-                            <p className="text-3xl font-bold italic">{formatLapTime(fastestLap.lap_duration)}</p>
+                        <div className="flex items-center justify-between">
+                            <p className="text-xl">Lap {fastestLap.lap_number}</p>
+                            <p className="text-3xl font-bold">{formatLapTime(fastestLap.lap_duration)}</p>
                         </div>
                     </div>
                 </div>
