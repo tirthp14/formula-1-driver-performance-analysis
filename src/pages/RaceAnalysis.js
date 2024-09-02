@@ -2,8 +2,6 @@ import React, { useContext, useState, useEffect } from "react";
 import { SessionContext } from "../utils/SessionContext";
 import { fetchSessionKey } from "../utils/FetchSessionKey";
 import RaceResults from "../components/RaceResults";
-import LapData from "../components/LapData";
-import TyreStrategy from "../components/TyreStrategy";
 
 const RaceAnalysis = () => {
     const { setRaceSessionKey } = useContext(SessionContext);

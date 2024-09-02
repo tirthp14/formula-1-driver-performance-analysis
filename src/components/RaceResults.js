@@ -2,9 +2,12 @@ import { useContext, useEffect, useState } from "react";
 import { SessionContext } from "../utils/SessionContext";
 import LapData from "../components/LapData";
 import TyreStrategy from "../components/TyreStrategy";
+import FastestLap from "../components/FastestLap";
+import FastestPitstop from "../components/FastestPitstop";
+import WindData from "../components/WindData";
 
 const RaceResults = () => {
-    const { raceSessionKey } = useContext(SessionContext);
+    const {raceSessionKey} = useContext(SessionContext);
     const [startingGrid, setStartingGrid] = useState([]);
     const [raceResults, setRaceResults] = useState([]);
     const [raceOrderDriverNumbers, setRaceOrderDriverNumbers] = useState([]);
@@ -78,32 +81,50 @@ const RaceResults = () => {
                     {/* Race Results Section */}
                     {raceResults.length > 0 && (
                         <div>
-                            <div className="flex justify-center items-end mb-8">
-                                <div className="flex flex-col">
-                                    <div className="flex justify-center items-center">
-                                        <img src={raceResults[1].driverDetails.headshot_url} alt={raceResults[1].driverDetails.full_name} className="w-28 h-28 mt-2"/>
+                            <div className="flex flex-row">
+                                <div className="flex justify-center items-end mb-8">
+                                    <div className="flex flex-col">
+                                        <div className="flex justify-center items-center">
+                                            <img src={raceResults[1].driverDetails.headshot_url} alt={raceResults[1].driverDetails.full_name} className="w-28 h-28 mt-2"/>
+                                        </div>
+                                        <div className="flex flex-col items-center justify-end bg-slate-800 text-white p-2 h-14 w-44 shadow-lg shadow-gray-400/10">
+                                            <p className="text-2xl font-extrabold tracking-widest">P2</p>
+                                        </div>
                                     </div>
-                                    <div className="flex flex-col items-center justify-end bg-slate-800 text-white p-2 h-14 w-44 shadow-lg shadow-gray-400/10">
-                                        <p className="text-2xl font-extrabold tracking-widest">P2</p>
+                                    <div className="flex flex-col">
+                                        <div className="flex justify-center items-center">
+                                            <img src={raceResults[0].driverDetails.headshot_url} alt={raceResults[0].driverDetails.full_name} className="w-32 h-32 mt-2"/>
+                                        </div>
+                                        <div className="flex flex-col items-center justify-end bg-slate-800 text-white p-2 h-20 w-44 shadow-lg shadow-gray-400/10 z-30">
+                                            <p className="text-2xl font-extrabold tracking-widest">P1</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-col">
+                                        <div className="flex justify-center items-center">
+                                            <img src={raceResults[2].driverDetails.headshot_url} alt={raceResults[2].driverDetails.full_name} className="w-28 h-28 mt-2"/>
+                                        </div>
+                                        <div className="flex flex-col items-center justify-end bg-slate-800 text-white p-2 h-12 w-44 shadow-lg shadow-gray-400/10">
+                                            <p className="text-2xl font-extrabold tracking-widest">P3</p>
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="flex flex-col">
-                                    <div className="flex justify-center items-center">
-                                        <img src={raceResults[0].driverDetails.headshot_url} alt={raceResults[0].driverDetails.full_name} className="w-32 h-32 mt-2"/>
+                                
+                                <div className="flex justify-around space-x-4 mt-8">
+                                    <div className="bg-gray-800 rounded-xl shadow-md w-64">
+                                        <h3 className="text-xl font-bold text-yellow-400 mb-4">Fastest Lap</h3>
+                                        <FastestLap />
                                     </div>
-                                    <div className="flex flex-col items-center justify-end bg-slate-800 text-white p-2 h-20 w-44 shadow-lg shadow-gray-400/10 z-50">
-                                        <p className="text-2xl font-extrabold tracking-widest">P1</p>
+                                    <div className="bg-gray-800 p-5 rounded-xl shadow-md w-64">
+                                        <h3 className="text-xl font-bold text-yellow-400 mb-4">Fastest Pitstop</h3>
+                                        <FastestPitstop />
                                     </div>
-                                </div>
-                                <div className="flex flex-col">
-                                    <div className="flex justify-center items-center">
-                                        <img src={raceResults[2].driverDetails.headshot_url} alt={raceResults[2].driverDetails.full_name} className="w-28 h-28 mt-2"/>
-                                    </div>
-                                    <div className="flex flex-col items-center justify-end bg-slate-800 text-white p-2 h-12 w-44 shadow-lg shadow-gray-400/10">
-                                        <p className="text-2xl font-extrabold tracking-widest">P3</p>
+                                    <div className="bg-gray-800 p-5 rounded-xl shadow-md w-64">
+                                        <h3 className="text-xl font-bold text-yellow-400 mb-4">Wind Data</h3>
+                                        <WindData />
                                     </div>
                                 </div>
                             </div>
+
                             <div className="bg-gray-800 text-lg tracking-wide rounded-3xl p-5">
                                 <table className="min-w-full text-white">
                                     <thead>
