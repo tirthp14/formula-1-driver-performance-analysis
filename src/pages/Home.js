@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { FaArrowRight, FaPlay } from "react-icons/fa";
+import Footer from "./Footer";
 
 const Home = () => {
   return (
@@ -45,6 +46,7 @@ const Home = () => {
 
       {/* Features Section */}
       <section id="features" className="bg-gray-900 text-white py-12">
+        <img className="w-1/2 h-1/2" src={require("../assets/Home Page/Picture4.png")} />
         <div className="container mx-auto px-6">
           <motion.h2
             className="text-3xl md:text-4xl font-bold text-center mb-8"
@@ -83,40 +85,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section id="contact" className="bg-gray-800 text-white py-12">
-        <div className="container mx-auto px-6 text-center">
-          <motion.h2
-            className="text-3xl md:text-4xl font-bold mb-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8 }}
-          >
-            Get in Touch
-          </motion.h2>
-          <motion.p
-            className="text-lg mb-8"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-          >
-            Have questions or want to learn more? Reach out to us!
-          </motion.p>
-          <motion.a
-            href="mailto:contact@f1races.com"
-            className="bg-red-500 text-white px-6 py-3 rounded-full font-semibold inline-block hover:bg-red-600 transition"
-            whileHover={{ scale: 1.1 }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
-            Contact Us
-          </motion.a>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="bg-gray-800 text-white p-4 text-center">
-        <p>&copy; 2024 F1 Analytics. All rights reserved.</p>
-      </footer>
+      <Footer />
     </div>
   );
 };
