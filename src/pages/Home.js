@@ -46,7 +46,10 @@ const Home = () => {
 
       {/* Features Section */}
       <section id="features" className="bg-gray-900 text-white py-12">
-        <img className="w-1/2 h-1/2" src={require("../assets/Home Page/Picture4.png")} />
+        <img className="w-1/2 h-1/2" src={require("../assets/Home Page/Image 1.png")} />
+        <img className="w-1/2 h-1/2" src={require("../assets/Home Page/Image 2.png")} />
+        <img className="w-1/2 h-1/2" src={require("../assets/Home Page/Image 3.png")} />
+        <img className="w-1/2 h-1/2" src={require("../assets/Home Page/Image 4.png")} />
         <div className="container mx-auto px-6">
           <motion.h2
             className="text-3xl md:text-4xl font-bold text-center mb-8"
