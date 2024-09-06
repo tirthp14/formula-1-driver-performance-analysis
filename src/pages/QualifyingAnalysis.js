@@ -75,7 +75,7 @@ const QualifyingAnalysis = () => {
                     ) : (
                         <div className="bg-gray-900 text-white rounded-3xl shadow-md">
                             <div className="flex relative justify-center space-y-8">
-                                <img className='w-1/3 h-1/3 z-50' src={require('../assets/lotties/Loading Lottie.gif')} />
+                                <img className='w-1/3 h-1/3 z-30' src={require('../assets/lotties/Loading Lottie.gif')} />
                                 <h className='absolute bottom-5 z-0 text-3xl font-bold animate-pulse tracking-wider'>Loading...</h>
                             </div>
                         </div>
