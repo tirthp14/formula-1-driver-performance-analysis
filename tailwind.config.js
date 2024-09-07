@@ -30,6 +30,9 @@ module.exports = {
         light3: 'lightframe 0.1s ease-in-out 3s forwards',
         light4: 'lightframe 0.1s ease-in-out 4s forwards',
         light5: 'lightframe 0.1s ease-in-out 5s forwards',
+      },
+      backgroundImage: {
+        'hero-pattern':  "url('./assets/Background Image/Wave Line.svg')",
       }
     },
   },
