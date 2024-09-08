@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
     return (
@@ -45,10 +46,10 @@ const Footer = () => {
                             Quick Links
                         </motion.h2>
                         <ul className="space-y-2">
-                            <li><a href="#home" className="hover:underline">Home</a></li>
-                            <li><a href="#about" className="hover:underline">Race Analysis</a></li>
-                            <li><a href="#services" className="hover:underline">Qualifying Analysis</a></li>
-                            <li><a href="#contact" className="hover:underline">About Me :)</a></li>
+                            <li><Link to="/" className="hover:underline">Home</Link></li>
+                            <li><Link to="race-analysis" className="hover:underline">Race Analysis</Link></li>
+                            <li><Link to="qualifying-analysis" className="hover:underline">Qualifying Analysis</Link></li>
+                            <li><a href="https://tirthp14.github.io/personal-portfolio/" className="hover:underline">About Me :)</a></li>
                         </ul>
                     </div>
                     <div>
@@ -68,14 +69,14 @@ const Footer = () => {
                         >
                             Have questions or want to learn more?
                         </motion.p>
-                        <motion.a
-                            href="mailto:contact@f1races.com"
-                            className="bg-red-500 text-white px-6 py-3 rounded-full font-semibold inline-block hover:bg-red-600 transition"
+                        <a
+                            href="/"
+                            className="bg-red-600 text-white px-6 py-3 inline-block rounded-full font-semibold hover:bg-red-500 transition duration-300 transform hover:scale-105 shadow-lg"
                             whileHover={{ scale: 1.1 }}
                             transition={{ type: "spring", stiffness: 300 }}
                         >
-                            Contact Us
-                        </motion.a>
+                            Contact Me
+                        </a>
                     </div>
                 </div>
             </section>
@@ -85,8 +86,8 @@ const Footer = () => {
                 <div className="flex justify-center items-center space-x-44">
                     <p>&copy; 2024 F1 Analytics. All rights reserved.</p>
                     <div className="flex justify-center space-x-6">
-                        <a href="/privacy" className="hover:underline">Privacy Policy</a>
-                        <a href="/terms" className="hover:underline">Terms of Service</a>
+                        <a href="/" className="hover:underline">Privacy Policy</a>
+                        <a href="/" className="hover:underline">Terms of Service</a>
                     </div>
                 </div>
             </footer>
