@@ -4,7 +4,7 @@ function Navbar() {
     return (
         <div className="bg-transparent container text-white font-main flex items-center justify-between sticky top-0 z-50 py-4 px-10 mx-auto">
             {/* Logo Section */}
-            <a href="/" className="flex flex-col justify-center -space-y-2.5">
+            <a href="/" className="flex flex-col justify-center -space-y-2.5 transition-transform transform hover:scale-110">
                 <div className="flex items-end gap-1">
                     <p className="font-extrabold text-2xl">F1</p>
                     <div className="text-[3px] w-2 mb-1">
