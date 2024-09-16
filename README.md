@@ -33,8 +33,9 @@ The data is sourced from reliable Formula 1 APIs, ensuring accuracy and up-to-da
 - **Frontend:** 
   - React.js
   - Next.js
-  - Chart.js (for visualizations)
-  - CSS (for styling)
+  - Chart.js (for chart visualizations)
+  - Plotly.js (for 3D track visualizations)
+  - TailwindCSS (for styling)
 
 - **Backend/Data:**
   - Formula 1 APIs (to fetch real-time and historical data)
@@ -56,7 +57,7 @@ To run the project locally, follow these steps:
 3. **Run the development server:**
    `npm run dev`
 
-The app will be available at http://localhost:3000.
+The app will be available at `http://localhost:3000`.
     
 ## Usage
 
