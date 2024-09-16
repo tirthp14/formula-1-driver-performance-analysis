@@ -1,70 +1,73 @@
-# Getting Started with Create React App
+# Formula 1 Driver Performance Analysis
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Welcome to the **Formula 1 Driver Performance Analysis** project! This web application provides insights into the performance of Formula 1 drivers, enabling users to explore driver statistics, compare their performance over time, and analyze their telemetry across different qualifying and race sessions.
 
-## Available Scripts
+**Hosted on Vercel**: [Formula 1 Driver Performance Analysis](https://formula-1-driver-performance-analysis.vercel.app/)
 
-In the project directory, you can run:
+## Table of Contents
 
-### `npm start`
+- [About the Project](#about-the-project)
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Setup Instructions](#setup-instructions)
+- [Usage](#usage)
+- [Contact](#contact)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## About the Project
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+The Formula 1 Driver Performance Analysis project aims to provide F1 enthusiasts with detailed performance metrics of drivers over multiple seasons. This tool enables users to:\
+- Analyze performance metrics like race wins, podium finishes, and more.
+- Compare drivers across different eras and teams.
+- Visualize key statistics through interactive charts.
+The data is sourced from reliable Formula 1 APIs, ensuring accuracy and up-to-date information.
 
-### `npm test`
+## Features
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **Driver Statistics:** View detailed stats for each F1 driver, including race results, wins, podium finishes, and career points.
+- **Season Comparisons:** Compare driver performance across different seasons.
+- **Interactive Charts:** Visualize driver performance trends using dynamic charts and graphs.
+- **User-Friendly Interface:** A responsive and intuitive UI that makes navigation simple.
 
-### `npm run build`
+## Technologies Used
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **Frontend:** 
+  - React.js
+  - Next.js
+  - Chart.js (for chart visualizations)
+  - Plotly.js (for 3D track visualizations)
+  - TailwindCSS (for styling)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- **Backend/Data:**
+  - Formula 1 APIs (to fetch real-time and historical data)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- **Hosting:**
+  - Vercel (for deployment)
 
-### `npm run eject`
+## Setup Instructions
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+To run the project locally, follow these steps:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1. **Clone the repository**:
+   `git clone https://github.com/tirthp14/formula-1-driver-performance-analysis.git`
+   `cd formula-1-driver-performance-analysis`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+2. **Install dependencies: Ensure you have Node.js installed, then run**:
+    `npm install`
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+3. **Run the development server:**
+   `npm run dev`
 
-## Learn More
+The app will be available at `http://localhost:3000`.
+    
+## Usage
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- Explore Driver Stats: Navigate through the list of Formula 1 drivers and click on different drivers to compare their telemetry performance details.
+- Compare Driver Performance: Use the qualifying page to analyze how 2 drivers' performance was across various custom one lap distance.
+- Interactive Graphs: Hover over graphs to get detailed performance data for each session.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Contact
 
-### Code Splitting
+If you have any questions or suggestions, feel free to reach out:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- GitHub: @tirthp14
+- Email: tirth.patel1721@gmail.com
