@@ -2,7 +2,7 @@
 
 Welcome to the **Formula 1 Driver Performance Analysis** project! This web application provides insights into the performance of Formula 1 drivers, enabling users to explore driver statistics, compare their performance over time, and analyze their telemetry across different qualifying and race sessions.
 
-**Hosted on Vercel**: [https://formula-1-driver-performance-analysis.vercel.app/](Formula 1 Driver Performance Analysis)
+**Hosted on Vercel**: [Formula 1 Driver Performance Analysis](https://formula-1-driver-performance-analysis.vercel.app/)
 
 ## Table of Contents
 
