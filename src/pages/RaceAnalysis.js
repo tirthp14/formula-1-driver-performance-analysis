@@ -39,7 +39,7 @@ const RaceAnalysis = () => {
 
     return (
         <div>
-            <div className="font-main pt-2 pb-6 bg-gradient-to-b from-gray-950 to-gray-800 min-h-screen text-white">
+            <div className="font-main pt-2 pb-12 bg-gradient-to-b from-gray-950 to-gray-800 min-h-screen text-white">
                 <div className="container mx-auto px-10">
                     <div className="flex justify-center mb-6 space-x-4">
                         <select className="p-2 rounded-lg bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring focus:ring-teal-400" onChange={(e) => setYear(e.target.value)} value={year}>
