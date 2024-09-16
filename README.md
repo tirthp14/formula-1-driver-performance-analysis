@@ -1,6 +1,6 @@
 # Formula 1 Driver Performance Analysis
 
-Welcome to the **Formula 1 Driver Performance Analysis** project! This web application provides insights into the performance of Formula 1 drivers, enabling users to explore driver statistics, compare their performance over time, and analyze their rankings across various seasons.
+Welcome to the **Formula 1 Driver Performance Analysis** project! This web application provides insights into the performance of Formula 1 drivers, enabling users to explore driver statistics, compare their performance over time, and analyze their telemetry across different qualifying and race sessions.
 
 **Hosted on Vercel**: [https://formula-1-driver-performance-analysis.vercel.app/](Formula 1 Driver Performance Analysis)
 
@@ -61,9 +61,9 @@ The app will be available at `http://localhost:3000`.
     
 ## Usage
 
-- Explore Driver Stats: Navigate through the list of Formula 1 drivers and click on any driver to view their performance details.
-- Compare Seasons: Use the season comparison feature to analyze how a driver's performance has changed over different years.
-- Interactive Graphs: Hover over graphs to get detailed performance data for each season.
+- Explore Driver Stats: Navigate through the list of Formula 1 drivers and click on different drivers to compare their telemetry performance details.
+- Compare Driver Performance: Use the qualifying page to analyze how 2 drivers' performance was across various custom one lap distance.
+- Interactive Graphs: Hover over graphs to get detailed performance data for each session.
 
 ## Contact
 
