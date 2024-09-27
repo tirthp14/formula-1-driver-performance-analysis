@@ -48,7 +48,7 @@ const Home = () => {
         </section>
 
         <section className="bg-gradient-to-b from-gray-900 to-gray-800">
-            <section className="text-white px-24 container py-12 bg-hero-pattern bg-cover">
+            <section className="text-white mx-auto px-24 container py-12 bg-hero-pattern bg-cover">
                 <div>
                     <div className="flex gap-x-16">
                         <div className="w-1/2 pt-16 pb-8">
