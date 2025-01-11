@@ -15,7 +15,7 @@ const RaceAnalysis = () => {
         const fetchLocations = async () => {
             if (year) {
                 const response = await fetch(`https://api.openf1.org/v1/meetings?year=${year}`);
-                const data = await response.json();
+                const data = await response.json(); 
 
                 setLocations(data);
             }
