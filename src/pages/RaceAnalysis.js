@@ -44,6 +44,7 @@ const RaceAnalysis = () => {
                     <div className="flex justify-center mb-6 space-x-4">
                         <select className="p-2 rounded-lg bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring focus:ring-teal-400" onChange={(e) => setYear(e.target.value)} value={year}>
                             <option value="">Select Year</option>
+                            <option value="2025">2025</option>
                             <option value="2024">2024</option>
                             <option value="2023">2023</option>
                         </select>
