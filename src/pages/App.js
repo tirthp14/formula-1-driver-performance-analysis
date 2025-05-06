@@ -6,6 +6,8 @@ import RaceAnalysis from "./RaceAnalysis";
 import QualifyingAnalysis from "./QualifyingAnalysis";
 import Navbar from "./Navbar";
 
+import { Analytics } from "@vercel/analytics/react"
+
 function App() {
   return (
     <SessionProvider>
@@ -15,6 +17,7 @@ function App() {
         <Route path="race-analysis" element={<RaceAnalysis />} />
         <Route path="qualifying-analysis" element={<QualifyingAnalysis />} />
       </Routes>
+      <Analytics/>
     </SessionProvider>
   )
 }
